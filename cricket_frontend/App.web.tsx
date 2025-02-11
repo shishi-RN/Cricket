@@ -78,8 +78,8 @@ const App = () => {
 
 const styles = StyleSheet.create({
   container: {
-    width: 1920,
-    height: 1080,
+    flex:1,
+    
     backgroundColor: 'black',
   },
   box: {
