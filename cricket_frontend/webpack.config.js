@@ -1,11 +1,9 @@
-
 const path = require('path');
-
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const appDirectory = path.resolve(__dirname);
-const {presets} = require(`${appDirectory}/babel.config.js`);
+const { presets } = require(`${appDirectory}/babel.config.js`);
 
 const compileNodeModules = [
   // Add every react-native package that needs compiling
@@ -50,6 +48,19 @@ const imageLoaderConfiguration = {
   },
 };
 
+// New font loader configuration
+const fontLoaderConfiguration = {
+  test: /\.(ttf|otf|eot|woff|woff2)$/,
+  use: {
+    loader: 'file-loader',
+    options: {
+      name: '[name].[ext]',
+      // You can adjust outputPath to match where you want your fonts to be stored in the build folder.
+      outputPath: 'assets/fonts/',
+    },
+  },
+};
+
 module.exports = {
   entry: {
     app: path.join(__dirname, 'index.web.js'),
@@ -63,6 +74,7 @@ module.exports = {
     extensions: ['.web.tsx', '.web.ts', '.tsx', '.ts', '.web.js', '.js'],
     alias: {
       'react-native$': 'react-native-web',
+      'react-native-linear-gradient': 'react-native-web-linear-gradient',
     },
   },
   module: {
@@ -70,6 +82,7 @@ module.exports = {
       babelLoaderConfiguration,
       imageLoaderConfiguration,
       svgLoaderConfiguration,
+      fontLoaderConfiguration, // Added font loader here
     ],
   },
   plugins: [
