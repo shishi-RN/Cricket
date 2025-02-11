@@ -1,119 +1,143 @@
-import React, {useEffect} from 'react';
-import {Animated, Easing, StyleSheet, View, Text} from 'react-native';
+import React from 'react';
+import { 
+  Animated, 
+  StyleSheet, 
+  View, 
+  Text, 
+  Dimensions,
+  PixelRatio 
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+
+const { width, height } = Dimensions.get('window');
+
+// Responsive scaling functions
+const scaleFont = size => {
+  const scaleFactor = PixelRatio.getFontScale();
+  return PixelRatio.roundToNearestPixel(size * Math.min(width / 375, height / 667) * scaleFactor);
+};
+
+const scaleSize = size => PixelRatio.roundToNearestPixel(size * (width / 375));
+const scaleHorizontal = size => PixelRatio.roundToNearestPixel(size * (width / 375));
+const scaleVertical = size => PixelRatio.roundToNearestPixel(size * (height / 667));
+
+// Flag aspect ratio (3:2)
+const FLAG_ASPECT_RATIO = 3/2;
 
 const App = () => {
   return (
     <View style={styles.container}>
+      {/* Top Section - Match Status */}
       <LinearGradient
         colors={['#000000', '#434343']}
-        style={[styles.box, {flex: 1.1}]}>
+        style={[styles.box, { flex: 0.3 * (height / 667) }]}>
         <View style={styles.flagContainer}>
-          {/* Flag 1 */}
           <Animated.Image
-            source={{
-              uri: 'https://upload.wikimedia.org/wikipedia/en/thumb/4/41/Flag_of_India.svg/1200px-Flag_of_India.svg.png',
-            }}
-            style={[styles.flag]}
+            source={{ uri: 'https://upload.wikimedia.org/wikipedia/en/4/41/Flag_of_India.svg' }}
+            style={[
+              styles.flag, 
+              { 
+                width: width * 0.25,
+                height: (width * 0.25) / FLAG_ASPECT_RATIO,
+                borderWidth: scaleSize(2),
+                borderRadius: scaleSize(4)
+              }
+            ]}
             resizeMode="cover"
           />
-          <View>
-            <Text
-              style={{color: 'white', fontFamily: 'mudstone', fontSize: 38}}>
-              IND
-            </Text>
-            <Text style={{color: 'white', fontFamily: 'lean', fontSize: 48}}>
-              232-3
-            </Text>
-            <Text style={{color: 'yellow', fontFamily: 'lean', fontSize: 38}}>
-              Over: 32.1
-            </Text>
+          
+          <View style={styles.scoreContainer}>
+            <Text style={[styles.teamName, { fontSize: scaleFont(32) }]}>IND</Text>
+            <Text style={[styles.score, { fontSize: scaleFont(42) }]}>232-3</Text>
+            <Text style={[styles.over, { fontSize: scaleFont(32) }]}>Over: 32.1</Text>
           </View>
-          <View
-            style={{
-              width: '40%',
-              backgroundColor: 'black',
-              borderRadius: 30,
-              justifyContent: 'center',
-              marginTop: 20,
-              borderWidth: 3,
-              borderColor: 'yellow',
-            }}></View>
-          <View>
-            <Text
-              style={{color: 'white', fontFamily: 'mudstone', fontSize: 38}}>
-              IND
-            </Text>
-            <Text style={{color: 'white', fontFamily: 'lean', fontSize: 48}}>
-              232-3
-            </Text>
-            <Text style={{color: 'yellow', fontFamily: 'lean', fontSize: 38}}>
-              Over: 32.1
-            </Text>
+
+          <View style={[
+            styles.progressContainer,
+            { 
+              width: scaleHorizontal(40),
+              borderRadius: scaleSize(30),
+              borderWidth: scaleSize(3),
+              marginTop: scaleVertical(20)
+            }
+          ]}>
+            <View style={styles.progressBar} />
           </View>
-          {/* Flag 2 */}
+
+          <View style={styles.scoreContainer}>
+            <Text style={[styles.teamName, { fontSize: scaleFont(32) }]}>ENG</Text>
+            <Text style={[styles.score, { fontSize: scaleFont(42) }]}>232-3</Text>
+            <Text style={[styles.over, { fontSize: scaleFont(32) }]}>Over: 32.1</Text>
+          </View>
+
           <Animated.Image
-            source={{
-              uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Flag_of_the_United_Kingdom_%281-2%29.svg/1200px-Flag_of_the_United_Kingdom_%281-2%29.svg.png',
-            }}
-            style={[styles.flag]}
+            source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/a/a5/Flag_of_the_United_Kingdom_(1-2).svg' }}
+            style={[
+              styles.flag, 
+              { 
+                width: width * 0.25,
+                height: (width * 0.25) / FLAG_ASPECT_RATIO,
+                borderWidth: scaleSize(2),
+                borderRadius: scaleSize(4)
+              }
+            ]}
             resizeMode="cover"
           />
         </View>
       </LinearGradient>
-      {/* 2nd view: Darker gradient (darker blue) */}
+
+      {/* Stats Bar */}
       <LinearGradient
         colors={['#0f2027', '#203a43']}
-        style={[styles.box, {flex: 0.2}]}>
-        <Text style={styles.text}>Hello</Text>
+        style={[styles.box, { flex: 0.1 * (height / 667) }]}>
+        <Text style={[styles.statsText, { fontSize: scaleFont(28) }]}>
+          Partnership: 72(52)  |  Last 5 Ov: 54/0
+        </Text>
       </LinearGradient>
 
-      {/* 3rd view: Darker gradient (dark red) */}
-      {/* 3rd view: Darker gradient (dark red) */}
+      {/* Main Content Area */}
       <LinearGradient
         colors={['#3e0000', '#7a0000']}
-        style={[styles.box, {flex: 2}]}>
+        style={[styles.box, { flex: 0.4 * (height / 667) }]}>
         <View style={styles.backgroundContainer}>
           <Animated.Image
-            source={{
-              uri: 'https://upload.wikimedia.org/wikipedia/commons/6/6e/Wankhede_ICC_WCF.jpg',
-            }}
-            style={styles.backgroundImage}
+            source={{ uri: 'https://upload.wikimedia.org/wikipedia/commons/6/6e/Wankhede_ICC_WCF.jpg' }}
+            style={[
+              styles.backgroundImage,
+              { 
+                width: width - scaleHorizontal(16),
+                height: height * 0.4,
+                borderRadius: scaleSize(8)
+              }
+            ]}
             resizeMode="cover"
           />
         </View>
         <View style={styles.overlayContent}>
-          <Text style={styles.text}>Hello</Text>
+          <Text style={[styles.stadiumText, { fontSize: scaleFont(36) }]}>
+            Wankhede Stadium
+          </Text>
         </View>
       </LinearGradient>
 
-      {/* 4th view: Darker gradient (dark purple) */}
+      {/* Player Stats */}
       <LinearGradient
         colors={['#2a0a3d', '#531d8a']}
-        style={[styles.box, {flex: 1}]}>
-        <Text style={styles.text}>Hello</Text>
+        style={[styles.box, { flex: 0.15 * (height / 667) }]}>
+        <View style={styles.playerStats}>
+          <Text style={[styles.statItem, { fontSize: scaleFont(26) }]}>Kohli: 78*(45)</Text>
+          <Text style={[styles.statItem, { fontSize: scaleFont(26) }]}>Strike Rate: 173.3</Text>
+          <Text style={[styles.statItem, { fontSize: scaleFont(26) }]}>4s/6s: 8/4</Text>
+        </View>
       </LinearGradient>
 
-      {/* 5th view: Variant of black (reversed gradient) */}
+      {/* Bottom Bar */}
       <LinearGradient
         colors={['#434343', '#000000']}
-        style={[styles.box, {flex: 0.5}]}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginHorizontal: 25,
-
-            marginTop: 15,
-          }}>
-          <Text style={{color: 'white', fontFamily: 'lean', fontSize: 38}}>
-            IND won the toss and elected to bat
-          </Text>
-          <Text style={{color: 'white', fontFamily: 'mudstone', fontSize: 38}}>
-            IND need 38 runs in 67 balls
-          </Text>
-          <Text style={{color: 'white', fontFamily: 'mudstone', fontSize: 38}}>
-            CRR:7.83 RRR:5.86
+        style={[styles.box, { flex: 0.05 * (height / 667) }]}>
+        <View style={styles.bottomBar}>
+          <Text style={[styles.bottomText, { fontSize: scaleFont(24) }]}>
+            IND won toss | Need 38 in 67 | CRR:7.83
           </Text>
         </View>
       </LinearGradient>
@@ -124,49 +148,101 @@ const App = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingVertical: scaleVertical(8),
+    paddingHorizontal: scaleHorizontal(8),
+  },
+  box: {
+    borderRadius: scaleSize(12),
+    marginVertical: scaleVertical(4),
+    overflow: 'hidden',
+  },
+  flagContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: scaleHorizontal(8),
+  },
+  scoreContainer: {
+    minWidth: width * 0.2,
+    alignItems: 'center',
+    marginHorizontal: scaleHorizontal(4),
+  },
+  teamName: {
+    color: 'white',
+    fontFamily: 'mudstone',
+    marginBottom: scaleVertical(4),
+  },
+  score: {
+    color: 'white',
+    fontFamily: 'lean',
+    marginBottom: scaleVertical(4),
+  },
+  over: {
+    color: 'yellow',
+    fontFamily: 'lean',
+  },
+  progressContainer: {
+    height: '60%',
+    backgroundColor: 'black',
+    justifyContent: 'center',
+    borderColor: 'yellow',
+  },
+  progressBar: {
+    height: '70%',
+    backgroundColor: 'yellow',
+    marginHorizontal: scaleHorizontal(2),
+    borderRadius: scaleSize(25),
   },
   backgroundContainer: {
-    ...StyleSheet.absoluteFillObject, // Ensures full stretch
+    ...StyleSheet.absoluteFillObject,
     zIndex: 0,
   },
   backgroundImage: {
-    width: '100%',
-    height: '100%',
-    position: 'absolute',
+    opacity: 0.8,
   },
   overlayContent: {
+    ...StyleSheet.absoluteFillObject,
+    zIndex: 1,
+    justifyContent: 'flex-end',
+    padding: scaleSize(16),
+  },
+  stadiumText: {
+    color: 'white',
+    fontFamily: 'mudstone',
+    textShadowColor: 'rgba(0,0,0,0.9)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 3,
+  },
+  playerStats: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    paddingHorizontal: scaleHorizontal(16),
+  },
+  statItem: {
+    color: 'white',
+    fontFamily: 'lean',
+    textAlign: 'center',
+  },
+  bottomBar: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 1, // Ensures text stays above the background
+    paddingHorizontal: scaleHorizontal(16),
   },
-  box: {
-    marginVertical: 2,
-    marginHorizontal: 8,
-  },
-  circleContent: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginVertical: 5,
-    marginHorizontal: 10,
-  },
-  flagContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    padding: 20,
-  },
-  flag: {
-    width: 190,
-    height: 120,
-    borderRadius: 4,
-    overflow: 'hidden',
-    borderWidth: 2,
-    borderColor: 'white',
-  },
-  text: {
-    fontFamily: 'mudstone',
+  bottomText: {
     color: 'white',
-    fontSize: 38,
+    fontFamily: 'mudstone',
+    textAlign: 'center',
+  },
+  statsText: {
+    color: 'white',
+    fontFamily: 'lean',
+    textAlign: 'center',
+    flex: 1,
+    textAlignVertical: 'center',
   },
 });
 
