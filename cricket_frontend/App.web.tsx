@@ -134,7 +134,7 @@ const App = () => {
       {/* Bottom Bar */}
       <LinearGradient
         colors={['#434343', '#000000']}
-        style={[styles.box, { flex: 0.05 * (height / 667) }]}>
+        style={[styles.box, { flex: 0.10 * (height / 667) }]}>
         <View style={styles.bottomBar}>
           <Text style={[styles.bottomText, { fontSize: scaleFont(24) }]}>
             IND won toss | Need 38 in 67 | CRR:7.83
@@ -156,8 +156,8 @@ const styles = StyleSheet.create({
     borderColor: 'white',
   },
   box: {
-    borderRadius: scaleSize(12),
-    marginVertical: scaleVertical(4),
+  
+    marginVertical: scaleVertical(2),
     overflow: 'hidden',
   },
   flagContainer: {
