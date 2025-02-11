@@ -37,8 +37,8 @@ const App = () => {
             style={[
               styles.flag, 
               { 
-                width: width * 0.25,
-                height: (width * 0.25) / FLAG_ASPECT_RATIO,
+                width: width * 0.15,
+                height: (width * 0.20) / FLAG_ASPECT_RATIO,
                 borderWidth: scaleSize(2),
                 borderRadius: scaleSize(4)
               }
@@ -75,8 +75,8 @@ const App = () => {
             style={[
               styles.flag, 
               { 
-                width: width * 0.25,
-                height: (width * 0.25) / FLAG_ASPECT_RATIO,
+                width: width * 0.15,
+                height: (width * 0.20) / FLAG_ASPECT_RATIO,
                 borderWidth: scaleSize(2),
                 borderRadius: scaleSize(4)
               }
@@ -150,6 +150,10 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: scaleVertical(8),
     paddingHorizontal: scaleHorizontal(8),
+  },
+  flag: {
+    overflow: 'hidden',
+    borderColor: 'white',
   },
   box: {
     borderRadius: scaleSize(12),
