@@ -5,7 +5,7 @@ if (module.hot) {
   module.hot.accept();
 }
 import mudstone from './assets/fonts/mudstone.otf';
-import lean from './assets/fonts/lean.otf';
+import lean from './assets/fonts/Lean.otf';
 const mudstoneFont = `@font-face {
   src: url(${mudstone});
   font-family: 'mudstone';
