@@ -5,10 +5,14 @@ if (module.hot) {
   module.hot.accept();
 }
 import mudstone from './assets/fonts/mudstone.otf';
-
+import lean from './assets/fonts/lean.otf';
 const mudstoneFont = `@font-face {
   src: url(${mudstone});
   font-family: 'mudstone';
+}`;
+const leanFont = `@font-face {
+  src: url(${lean});
+  font-family: 'lean';
 }`;
 
 // Create stylesheet
@@ -18,6 +22,7 @@ if (style.styleSheet) {
   style.styleSheet.cssText = regularFontStyles;
 } else {
   style.appendChild(document.createTextNode(mudstoneFont));
+  style.appendChild(document.createTextNode(leanFont));
 }
 
 // Inject stylesheet

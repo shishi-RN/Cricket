@@ -3,59 +3,60 @@ import {Animated, Easing, StyleSheet, View, Text} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
 const App = () => {
-  // Create an animated value
-  const waveAnim = new Animated.Value(0);
-
-  useEffect(() => {
-    Animated.loop(
-      Animated.timing(waveAnim, {
-        toValue: 1,
-        duration: 2000,
-        easing: Easing.linear,
-        useNativeDriver: true,
-      }),
-      {resetBeforeIteration: false}, // Prevents a reset gap between iterations
-    ).start();
-  }, []);
-
-  // Interpolate the animated value to produce a continuous wave
-  const getSkewX = (reverse = false) =>
-    waveAnim.interpolate({
-      inputRange: [0, 0.25, 0.5, 0.75, 1],
-      outputRange: reverse
-        ? ['0deg', '-15deg', '0deg', '15deg', '0deg']
-        : ['0deg', '15deg', '0deg', '-15deg', '0deg'],
-    });
-
   return (
     <View style={styles.container}>
-      <LinearGradient colors={['#000000', '#434343']} style={styles.box}>
+      <LinearGradient
+        colors={['#000000', '#434343']}
+        style={[styles.box, {flex: 1.1}]}>
         <View style={styles.flagContainer}>
           {/* Flag 1 */}
           <Animated.Image
             source={{
               uri: 'https://upload.wikimedia.org/wikipedia/en/thumb/4/41/Flag_of_India.svg/1200px-Flag_of_India.svg.png',
             }}
-            style={[styles.flag, {transform: [{skewX: getSkewX()}]}]}
+            style={[styles.flag]}
             resizeMode="cover"
           />
           <View>
-            <Text style={{color: 'white', fontFamily: 'mudstone'}}>IND</Text>
-            <Text>232-3</Text>
-            <Text>Over: 32.1</Text>
+            <Text
+              style={{color: 'white', fontFamily: 'mudstone', fontSize: 38}}>
+              IND
+            </Text>
+            <Text style={{color: 'white', fontFamily: 'lean', fontSize: 48}}>
+              232-3
+            </Text>
+            <Text style={{color: 'yellow', fontFamily: 'lean', fontSize: 38}}>
+              Over: 32.1
+            </Text>
           </View>
-          <View style={{width: '20%'}}></View>
+          <View
+            style={{
+              width: '40%',
+              backgroundColor: 'black',
+              borderRadius: 30,
+              justifyContent: 'center',
+              marginTop: 20,
+              borderWidth: 3,
+              borderColor: 'yellow',
+            }}></View>
           <View>
-            <Text>IND</Text>
-            <Text>232-3</Text>
-            <Text>Over: 32.1</Text>
+            <Text
+              style={{color: 'white', fontFamily: 'mudstone', fontSize: 38}}>
+              IND
+            </Text>
+            <Text style={{color: 'white', fontFamily: 'lean', fontSize: 48}}>
+              232-3
+            </Text>
+            <Text style={{color: 'yellow', fontFamily: 'lean', fontSize: 38}}>
+              Over: 32.1
+            </Text>
           </View>
           {/* Flag 2 */}
           <Animated.Image
             source={{
               uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Flag_of_the_United_Kingdom_%281-2%29.svg/1200px-Flag_of_the_United_Kingdom_%281-2%29.svg.png',
             }}
-            style={[styles.flag, {transform: [{skewX: getSkewX(true)}]}]}
+            style={[styles.flag]}
             resizeMode="cover"
           />
         </View>
@@ -63,15 +64,27 @@ const App = () => {
       {/* 2nd view: Darker gradient (darker blue) */}
       <LinearGradient
         colors={['#0f2027', '#203a43']}
-        style={[styles.box, {flex: 0.5}]}>
+        style={[styles.box, {flex: 0.2}]}>
         <Text style={styles.text}>Hello</Text>
       </LinearGradient>
 
       {/* 3rd view: Darker gradient (dark red) */}
+      {/* 3rd view: Darker gradient (dark red) */}
       <LinearGradient
         colors={['#3e0000', '#7a0000']}
         style={[styles.box, {flex: 2}]}>
-        <Text style={styles.text}>Hello</Text>
+        <View style={styles.backgroundContainer}>
+          <Animated.Image
+            source={{
+              uri: 'https://upload.wikimedia.org/wikipedia/commons/6/6e/Wankhede_ICC_WCF.jpg',
+            }}
+            style={styles.backgroundImage}
+            resizeMode="cover"
+          />
+        </View>
+        <View style={styles.overlayContent}>
+          <Text style={styles.text}>Hello</Text>
+        </View>
       </LinearGradient>
 
       {/* 4th view: Darker gradient (dark purple) */}
@@ -85,7 +98,24 @@ const App = () => {
       <LinearGradient
         colors={['#434343', '#000000']}
         style={[styles.box, {flex: 0.5}]}>
-        <Text style={styles.text}>Hello</Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            marginHorizontal: 25,
+
+            marginTop: 15,
+          }}>
+          <Text style={{color: 'white', fontFamily: 'lean', fontSize: 38}}>
+            IND won the toss and elected to bat
+          </Text>
+          <Text style={{color: 'white', fontFamily: 'mudstone', fontSize: 38}}>
+            IND need 38 runs in 67 balls
+          </Text>
+          <Text style={{color: 'white', fontFamily: 'mudstone', fontSize: 38}}>
+            CRR:7.83 RRR:5.86
+          </Text>
+        </View>
       </LinearGradient>
     </View>
   );
@@ -95,8 +125,24 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  backgroundContainer: {
+    ...StyleSheet.absoluteFillObject, // Ensures full stretch
+    zIndex: 0,
+  },
+  backgroundImage: {
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+  },
+  overlayContent: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 1, // Ensures text stays above the background
+  },
   box: {
     marginVertical: 2,
+    marginHorizontal: 8,
   },
   circleContent: {
     flexDirection: 'row',
@@ -110,8 +156,8 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   flag: {
-    width: 140,
-    height: 90,
+    width: 190,
+    height: 120,
     borderRadius: 4,
     overflow: 'hidden',
     borderWidth: 2,
