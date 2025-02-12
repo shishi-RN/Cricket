@@ -165,9 +165,10 @@ const App = () => {
               style={[
                 styles.teamName,
                 {
-                  fontSize: scaleFont(32),
+                  fontSize:matchData?.event  === "NONE" ? scaleFont(15): scaleFont(25),
                   justifyContent: 'center',
                   alignSelf: 'center',
+                  alignContent:"center",
                   opacity: rotationAnim,
                 },
               ]}>
