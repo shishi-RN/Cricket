@@ -152,30 +152,37 @@ const App = () => {
           </View>
 
           <View
-            style={[
-              styles.progressContainer,
-              {
-                width: scaleHorizontal(60),
-                borderRadius: scaleSize(30),
-                borderWidth: scaleSize(1),
-                marginTop: scaleVertical(20),
-              },
-            ]}>
-            <Animated.Text
-              style={[
-                styles.teamName,
-                {
-                  fontSize:matchData?.event  === "NONE" ? scaleFont(15): scaleFont(25),
-                  justifyContent: 'center',
-                  alignSelf: 'center',
-                  alignContent:"center",
-                  opacity: rotationAnim,
-                },
-              ]}>
-              {matchData?.event  === "NONE" ? lastValue :matchData?.event ?? 'BALL'}
-            </Animated.Text>
-            {/* <View style={styles.progressBar} /> */}
-          </View>
+  style={[
+    styles.progressContainer,
+    {
+      width: scaleHorizontal(60),
+      borderRadius: scaleSize(30),
+      borderWidth: scaleSize(1),
+      marginTop: scaleVertical(20),
+    },
+  ]}
+>
+  <Animated.Text
+    style={[
+      styles.teamName,
+      {
+        fontSize: scaleFont(55),
+        justifyContent: 'center',
+        alignSelf: 'center',
+        textAlign: 'center', // Ensures the text is centered
+        opacity: rotationAnim,
+      },
+    ]}
+    numberOfLines={1} // Limits to a single line
+    ellipsizeMode="tail" // Adds "..." if the text overflows
+    adjustsFontSizeToFit // Dynamically decreases font size (iOS specific)
+    minimumFontScale={0.5} // Ensures the text does not shrink too much
+  >
+    {matchData?.event === "NONE" ? lastValue : matchData?.event ?? 'BALL'}
+  </Animated.Text>
+</View>
+
+
 
           <View style={styles.scoreContainer}>
             <Animated.Text
