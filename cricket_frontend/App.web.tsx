@@ -87,20 +87,20 @@ const App = () => {
 
   const indInnings = matchData?.match?.find(m => m.batTeamName === 'IND');
   const engInnings = matchData?.match?.find(m => m.batTeamName === 'ENG');
-  const partnershipText = `${matchData?.partnership.runs}(${matchData?.partnership.balls})`;
+  const partnershipText = `${matchData?.partnership?.runs ?? "0"}(${matchData?.partnership?.balls ?? "0"})`;
+
   const tossText = `${matchData?.toss.tossWinnerName} won toss & chose ${matchData?.toss.decision}`;
   const striker = matchData?.batsmanStriker;
   const nonStriker = matchData?.batsmanNonStriker;
   const bowler = matchData?.bowler;
-  const strikerText = `${striker?.batName}: ${striker?.batRuns}(${striker?.batBalls})`;
-  const nonStrikeText = `${nonStriker?.batName}: ${nonStriker?.batRuns}(${nonStriker?.batBalls})`;
-  const strikeRateText = `Strike Rate: ${striker?.batStrikeRate.toFixed(2)}`;
-  const foursSixesText = `4s/6s: ${striker?.batFours}/${striker?.batSixes}`;
-  const nonstrikeRateText = `Strike Rate: ${nonStriker?.batStrikeRate.toFixed(
-    2,
-  )}`;
-  const nonfoursSixesText = `4s/6s: ${nonStriker?.batFours}/${nonStriker?.batSixes}`;
-  const bowlerRate = `Overs : ${bowler?.bowlOvs} Runs : ${bowler?.bowlRuns}  Wickets : ${bowler?.bowlWkts} Economy : ${bowler?.bowlEcon}`;
+  const strikerText = `${striker?.batName ?? "0"}: ${striker?.batRuns ?? "0"}(${striker?.batBalls ?? "0"})`;
+  const nonStrikeText = `${nonStriker?.batName ?? "0"}: ${nonStriker?.batRuns ?? "0"}(${nonStriker?.batBalls ?? "0"})`;
+  const strikeRateText = `Strike Rate: ${(striker?.batStrikeRate ?? 0).toFixed(2)}`;
+  const foursSixesText = `4s/6s: ${striker?.batFours ?? "0"}/${striker?.batSixes ?? "0"}`;
+  const nonstrikeRateText = `Strike Rate: ${(nonStriker?.batStrikeRate ?? 0).toFixed(2)}`;
+  const nonfoursSixesText = `4s/6s: ${nonStriker?.batFours ?? "0"}/${nonStriker?.batSixes ?? "0"}`;
+  const bowlerRate = `Overs: ${bowler?.bowlOvs ?? "0"} Runs: ${bowler?.bowlRuns ?? "0"} Wickets: ${bowler?.bowlWkts ?? "0"} Economy: ${bowler?.bowlEcon ?? "0"}`;
+  
   return (
     <View style={styles.container}>
       {/* Top Section - Match Status */}
