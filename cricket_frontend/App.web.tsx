@@ -166,17 +166,17 @@ const App = () => {
     style={[
       styles.teamName,
       {
-        fontSize: scaleFont(55),
+        fontSize:matchData?.event ==="OVER-BREAK"?scaleFont(25): scaleFont(55),
         justifyContent: 'center',
         alignSelf: 'center',
         textAlign: 'center', // Ensures the text is centered
         opacity: rotationAnim,
       },
     ]}
-    numberOfLines={1} // Limits to a single line
+    numberOfLines={2} // Limits to a single line
     ellipsizeMode="tail" // Adds "..." if the text overflows
     adjustsFontSizeToFit // Dynamically decreases font size (iOS specific)
-    minimumFontScale={0.5} // Ensures the text does not shrink too much
+ 
   >
     {matchData?.event === "NONE" ? lastValue : matchData?.event ?? 'BALL'}
   </Animated.Text>
