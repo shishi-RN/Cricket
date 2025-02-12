@@ -90,15 +90,17 @@ const App = () => {
   const partnershipText = `${matchData?.partnership.runs}(${matchData?.partnership.balls})`;
   const tossText = `${matchData?.toss.tossWinnerName} won toss & chose ${matchData?.toss.decision}`;
   const striker = matchData?.batsmanStriker;
-  const nonStriker=matchData?.batsmanNonStriker;
-  const bowler =matchData?.bowler
+  const nonStriker = matchData?.batsmanNonStriker;
+  const bowler = matchData?.bowler;
   const strikerText = `${striker?.batName}: ${striker?.batRuns}(${striker?.batBalls})`;
-  const nonStrikeText=`${nonStriker?.batName}: ${nonStriker?.batRuns}(${nonStriker?.batBalls})`
+  const nonStrikeText = `${nonStriker?.batName}: ${nonStriker?.batRuns}(${nonStriker?.batBalls})`;
   const strikeRateText = `Strike Rate: ${striker?.batStrikeRate.toFixed(2)}`;
   const foursSixesText = `4s/6s: ${striker?.batFours}/${striker?.batSixes}`;
-  const nonstrikeRateText = `Strike Rate: ${nonStriker?.batStrikeRate.toFixed(2)}`;
+  const nonstrikeRateText = `Strike Rate: ${nonStriker?.batStrikeRate.toFixed(
+    2,
+  )}`;
   const nonfoursSixesText = `4s/6s: ${nonStriker?.batFours}/${nonStriker?.batSixes}`;
-const bowlerRate= `Overs : ${bowler?.bowlOvs} Runs : ${bowler?.bowlRuns}  Wickets : ${bowler?.bowlWkts} Economy : ${bowler?.bowlEcon}`
+  const bowlerRate = `Overs : ${bowler?.bowlOvs} Runs : ${bowler?.bowlRuns}  Wickets : ${bowler?.bowlWkts} Economy : ${bowler?.bowlEcon}`;
   return (
     <View style={styles.container}>
       {/* Top Section - Match Status */}
@@ -107,7 +109,11 @@ const bowlerRate= `Overs : ${bowler?.bowlOvs} Runs : ${bowler?.bowlRuns}  Wicket
         style={[styles.box, {flex: 0.3 * (height / 667)}]}>
         <View style={styles.flagContainer}>
           <Animated.Image
-            source={{uri: indInnings?.teamImage}}
+            source={{
+              uri:
+                indInnings?.teamImage ??
+                'https://upload.wikimedia.org/wikipedia/en/4/41/Flag_of_India.svg',
+            }}
             style={[
               styles.flag,
               {
@@ -126,21 +132,21 @@ const bowlerRate= `Overs : ${bowler?.bowlOvs} Runs : ${bowler?.bowlRuns}  Wicket
                 styles.teamName,
                 {fontSize: scaleFont(32), opacity: fadeAnim},
               ]}>
-              {indInnings?.batTeamName}
+              {indInnings?.batTeamName ?? 'IND'}
             </Animated.Text>
             <Animated.Text
               style={[
                 styles.score,
                 {fontSize: scaleFont(42), opacity: fadeAnim},
               ]}>
-              {indInnings?.score}/{indInnings?.wickets}
+              {indInnings?.score ?? 0}/{indInnings?.wickets ?? 0}
             </Animated.Text>
             <Animated.Text
               style={[
                 styles.over,
                 {fontSize: scaleFont(32), opacity: fadeAnim},
               ]}>
-              Over: {indInnings?.overs}
+              Over: {indInnings?.overs ?? 0.0}
             </Animated.Text>
           </View>
 
@@ -164,7 +170,7 @@ const bowlerRate= `Overs : ${bowler?.bowlOvs} Runs : ${bowler?.bowlRuns}  Wicket
                   opacity: rotationAnim,
                 },
               ]}>
-              {matchData?.event}
+              {matchData?.event ?? 'BALL'}
             </Animated.Text>
             {/* <View style={styles.progressBar} /> */}
           </View>
@@ -175,26 +181,31 @@ const bowlerRate= `Overs : ${bowler?.bowlOvs} Runs : ${bowler?.bowlRuns}  Wicket
                 styles.teamName,
                 {fontSize: scaleFont(32), opacity: fadeAnim},
               ]}>
-              {engInnings?.batTeamName}
+              {engInnings?.batTeamName ? engInnings?.batTeamName : 'ENG'}
             </Animated.Text>
             <Animated.Text
               style={[
                 styles.score,
                 {fontSize: scaleFont(42), opacity: fadeAnim},
               ]}>
-              {engInnings?.score}/{engInnings?.wickets}
+              {engInnings?.score ?? 0}/{engInnings?.wickets ?? 0}
             </Animated.Text>
+
             <Animated.Text
               style={[
                 styles.over,
                 {fontSize: scaleFont(32), opacity: fadeAnim},
               ]}>
-              Over: {engInnings?.overs}
+              Over: {engInnings?.overs ?? 0.0}
             </Animated.Text>
           </View>
 
           <Animated.Image
-            source={{uri: engInnings?.teamImage}}
+            source={{
+              uri:
+                engInnings?.teamImage ??
+                'https://upload.wikimedia.org/wikipedia/commons/a/a5/Flag_of_the_United_Kingdom_(1-2).svg',
+            }}
             style={[
               styles.flag,
               {
@@ -218,8 +229,8 @@ const bowlerRate= `Overs : ${bowler?.bowlOvs} Runs : ${bowler?.bowlRuns}  Wicket
             styles.statsText,
             {fontSize: scaleFont(20), marginTop: scaleFont(19)},
           ]}>
-          Partnership: {partnershipText} | Last 5 Ov:{' '}
-          {matchData?.recentOvsStats}
+          Partnership: {partnershipText?? "00"} | Last 5 Ov:{' '}
+          {matchData?.recentOvsStats ?? "0"}
         </Text>
       </LinearGradient>
 
@@ -253,7 +264,7 @@ const bowlerRate= `Overs : ${bowler?.bowlOvs} Runs : ${bowler?.bowlRuns}  Wicket
       {/* Player Stats */}
       <LinearGradient
         colors={['#2a0a3d', '#531d8a']}
-        style={[styles.box, {flex: 0.20 * (height / 667)}]}>
+        style={[styles.box, {flex: 0.2 * (height / 667)}]}>
         <View style={styles.playerStats}>
           <Text style={[styles.statItem, {fontSize: scaleFont(26)}]}>
             {strikerText}
@@ -283,7 +294,6 @@ const bowlerRate= `Overs : ${bowler?.bowlOvs} Runs : ${bowler?.bowlRuns}  Wicket
           <Text style={[styles.statItem, {fontSize: scaleFont(26)}]}>
             {bowlerRate}
           </Text>
-       
         </View>
       </LinearGradient>
 
@@ -292,10 +302,9 @@ const bowlerRate= `Overs : ${bowler?.bowlOvs} Runs : ${bowler?.bowlRuns}  Wicket
         colors={['#434343', '#000000']}
         style={[styles.box, {flex: 0.2 * (height / 667)}]}>
         <View style={styles.bottomBar}>
-        <Text style={[styles.bottomText, { fontSize: scaleFont(24) }]}>
-  {`${tossText} \n LW: ${matchData?.lastWicket} \n ${matchData?.status}`}
-</Text>
-
+          <Text style={[styles.bottomText, {fontSize: scaleFont(24)}]}>
+            {`${tossText} \n LW: ${matchData?.lastWicket?? "0"} \n ${matchData?.status}`}
+          </Text>
         </View>
       </LinearGradient>
     </View>
