@@ -89,6 +89,7 @@ const App = () => {
   const engInnings = matchData?.match?.find(m => m.batTeamName === 'ENG');
   const partnershipText = `${matchData?.partnership?.runs ?? "0"}(${matchData?.partnership?.balls ?? "0"})`;
 
+ 
   const tossText = `${matchData?.toss.tossWinnerName} won toss & chose ${matchData?.toss.decision}`;
   const striker = matchData?.batsmanStriker;
   const nonStriker = matchData?.batsmanNonStriker;
@@ -100,7 +101,7 @@ const App = () => {
   const nonstrikeRateText = `Strike Rate: ${(nonStriker?.batStrikeRate ?? 0).toFixed(2)}`;
   const nonfoursSixesText = `4s/6s: ${nonStriker?.batFours ?? "0"}/${nonStriker?.batSixes ?? "0"}`;
   const bowlerRate = `Overs: ${bowler?.bowlOvs ?? "0"} Runs: ${bowler?.bowlRuns ?? "0"} Wickets: ${bowler?.bowlWkts ?? "0"} Economy: ${bowler?.bowlEcon ?? "0"}`;
-  
+  const lastValue = matchData?.recentOvsStats?.trim().split(" ").pop();
   return (
     <View style={styles.container}>
       {/* Top Section - Match Status */}
@@ -170,7 +171,7 @@ const App = () => {
                   opacity: rotationAnim,
                 },
               ]}>
-              {matchData?.event ?? 'BALL'}
+              {matchData?.event  === "NONE" ? lastValue :matchData?.event ?? 'BALL'}
             </Animated.Text>
             {/* <View style={styles.progressBar} /> */}
           </View>
