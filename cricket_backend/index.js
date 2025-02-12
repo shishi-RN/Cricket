@@ -172,47 +172,58 @@ app.get("/match-data", async (req, res) => {
     const response = await axios.get(
       "https://www.cricbuzz.com/api/cricket-match/commentary/100328"
     );
+    
     const { matchHeader, commentaryList, miniscore } = response.data;
 
     // Retrieve player images using fuzzy matching
-    const batsmanNonStrikerImage = getPlayerImage(
-      miniscore.batsmanNonStriker.batName
-    );
-    const batsmanStrikerImage = getPlayerImage(
-      miniscore.batsmanStriker.batName
-    );
-    const bowlerImage = getPlayerImage(miniscore.bowlerStriker.bowlName);
-    const match = miniscore.matchScoreDetails.inningsScoreList.map((inning) => ({
-      ...inning,
-      teamImage: getPlayerImage(inning.batTeamName),
-    }));
+    let batsmanNonStrikerImage;
+if (miniscore?.batsmanNonStriker?.batName) {
+  batsmanNonStrikerImage = getPlayerImage(miniscore.batsmanNonStriker.batName);
+}
+
+let batsmanStrikerImage;
+if (miniscore?.batsmanStriker?.batName) {
+  batsmanStrikerImage = getPlayerImage(miniscore.batsmanStriker.batName);
+}
+
+let bowlerImage;
+if (miniscore?.bowlerStriker?.bowlName) {
+  bowlerImage = getPlayerImage(miniscore.bowlerStriker.bowlName);
+}
+
+const match = miniscore?.matchScoreDetails?.inningsScoreList?.map((inning) => ({
+    ...inning,
+    teamImage: inning.batTeamName ? getPlayerImage(inning.batTeamName) : undefined,
+  })) ?? [];
+  
     console.log(match)
     const api = {
       status: matchHeader.status,
       toss: matchHeader.tossResults,
       commentary: commentaryList[0].commText,
-      partnership: miniscore.partnerShip,
+      partnership: miniscore?.partnerShip ? miniscore?.partnerShip:0,
       batsmanNonStriker: {
-        ...miniscore.batsmanNonStriker,
+        ...miniscore?.batsmanNonStriker,
         image: batsmanNonStrikerImage,
       },
       batsmanStriker: {
-        ...miniscore.batsmanStriker,
+        ...miniscore?.batsmanStriker,
         image: batsmanStrikerImage,
       },
       bowler: {
-        ...miniscore.bowlerStriker,
+        ...miniscore?.bowlerStriker,
         image: bowlerImage,
       },
-      event: miniscore.event,
-      lastWicket: miniscore.lastWicket,
+      event: miniscore?.event,
+      lastWicket: miniscore?.lastWicket,
      match,
-     recentOvsStats:miniscore.recentOvsStats
+     recentOvsStats:miniscore?.recentOvsStats
     };
 
     res.send(api);
   } catch (error) {
-    res.status(500).send("Error fetching data");
+    console.log(error)
+    res.status(500).send("error");
   }
 });
 
