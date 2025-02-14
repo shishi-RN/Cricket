@@ -215,13 +215,43 @@ app.get("/match-data", async (req, res) => {
       bowlerImage = getPlayerImage(miniscore.bowlerStriker.bowlName);
     }
 
-    const match =
-      miniscore?.matchScoreDetails?.inningsScoreList?.map((inning) => ({
+    const match = (() => {
+      const inningsScoreList = miniscore?.matchScoreDetails?.inningsScoreList || [];
+      const { team1, team2 } = matchHeader;
+    
+      // Get list of team IDs that have batted
+      const battedTeamIds = inningsScoreList.map(inning => inning.batTeamId);
+    
+      // Add missing innings for teams that haven't batted yet
+      const allInnings = [...inningsScoreList];
+      
+      // Check and add second innings if needed
+      if (allInnings.length < 2) {
+        const nextInningsId = allInnings.length + 1;
+        const nextBattingTeam = [team1, team2].find(
+          team => !battedTeamIds.includes(team.id)
+        );
+    
+        if (nextBattingTeam) {
+          allInnings.push({
+            inningsId: nextInningsId,
+            batTeamId: nextBattingTeam.id,
+            batTeamName: nextBattingTeam.shortName,
+            score: 0,
+            wickets: 0,
+            overs: 0,
+            isDeclared: false,
+            isFollowOn: false,
+            ballNbr: 0
+          });
+        }
+      }
+    
+      return allInnings.map(inning => ({
         ...inning,
-        teamImage: inning.batTeamName
-          ? getPlayerImage(inning.batTeamName)
-          : undefined,
-      })) ?? [];
+        teamImage: getPlayerImage(inning.batTeamName),
+      }));
+    })();
 
     // Clean the commentary text
 
