@@ -6,10 +6,11 @@ import {
   Text,
   Dimensions,
   PixelRatio,
+  TouchableOpacity,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import axios from 'axios';
-
+import {WebView} from 'react-native-webview';
 const {width, height} = Dimensions.get('window');
 
 // Responsive scaling functions
@@ -29,6 +30,8 @@ const scaleVertical = size =>
 const FLAG_ASPECT_RATIO = 3 / 2;
 
 const App = () => {
+  const [audioHtml, setAudioHtml] = useState('');
+  const webViewRef = useRef(null);
   const [matchData, setMatchData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -55,7 +58,81 @@ const App = () => {
       throw error;
     }
   };
+  console.log(matchData?.voice);
+  const loopVoice = 'http://127.0.0.1:3000/voices/stadium.mp3';
+  useEffect(() => {
+    const nonLoopVoice = matchData?.voice;
 
+    if (nonLoopVoice || loopVoice) {
+      const newAudioHtml = `
+        <html>
+          <body style="margin:0;padding:0;">
+            ${
+              nonLoopVoice
+                ? `
+              <audio 
+                id="audioPlayer" 
+                autoplay 
+                controls 
+                playsinline 
+                webkit-playsinline
+                style="position:absolute;left:-1000px;top:-1000px;"
+              >
+                <source src="${nonLoopVoice}" type="audio/mpeg">
+              </audio>
+            `
+                : ''
+            }
+            
+            ${
+              loopVoice
+                ? `
+              <audio 
+                id="loopPlayer" 
+                autoplay 
+                loop 
+                controls 
+                playsinline 
+                webkit-playsinline
+                style="position:absolute;left:-1000px;top:-1000px;"
+              >
+                <source src="${loopVoice}" type="audio/mpeg">
+              </audio>
+            `
+                : ''
+            }
+  
+            <script>
+              document.addEventListener('DOMContentLoaded', () => {
+                ${
+                  nonLoopVoice
+                    ? `
+                  document.getElementById('audioPlayer')?.play()
+                    .catch(e => console.log('Non-loop play error:', e));
+                `
+                    : ''
+                }
+                
+                ${
+                  loopVoice
+                    ? `
+                  const loopPlayer = document.getElementById('loopPlayer');
+                  if (loopPlayer) {
+                    loopPlayer.volume = 0.2;  // Set volume to 30%
+                    loopPlayer.play()
+                      .catch(e => console.log('Loop play error:', e));
+                  }
+                `
+                    : ''
+                }
+              });
+            </script>
+          </body>
+        </html>
+      `;
+      setAudioHtml(newAudioHtml);
+    }
+  }, [matchData?.voice, loopVoice]);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -79,31 +156,67 @@ const App = () => {
     fetchData();
 
     // Set up interval to fetch data every 5 seconds
-    const intervalId = setInterval(fetchData, 5000);
+    const intervalId = setInterval(fetchData, 13000);
 
     // Clean up interval on component unmount
     return () => clearInterval(intervalId);
   }, [fadeAnim]);
+  const sortedInnings =
+    matchData?.match?.sort((a, b) => a.inningsId - b.inningsId) || [];
+  const firstInnings = sortedInnings[0];
+  const secondInnings = sortedInnings[1];
 
-  const indInnings = matchData?.match?.find(m => m.batTeamName === 'IND');
-  const engInnings = matchData?.match?.find(m => m.batTeamName === 'ENG');
-  const partnershipText = `${matchData?.partnership?.runs ?? "0"}(${matchData?.partnership?.balls ?? "0"})`;
-
- 
+  const partnershipText = `${matchData?.partnership?.runs ?? '0'}(${
+    matchData?.partnership?.balls ?? '0'
+  })`;
   const tossText = `${matchData?.toss.tossWinnerName} won toss & chose ${matchData?.toss.decision}`;
   const striker = matchData?.batsmanStriker;
   const nonStriker = matchData?.batsmanNonStriker;
   const bowler = matchData?.bowler;
-  const strikerText = `${striker?.batName ?? "0"}: ${striker?.batRuns ?? "0"}(${striker?.batBalls ?? "0"})`;
-  const nonStrikeText = `${nonStriker?.batName ?? "0"}: ${nonStriker?.batRuns ?? "0"}(${nonStriker?.batBalls ?? "0"})`;
-  const strikeRateText = `Strike Rate: ${(striker?.batStrikeRate ?? 0).toFixed(2)}`;
-  const foursSixesText = `4s/6s: ${striker?.batFours ?? "0"}/${striker?.batSixes ?? "0"}`;
-  const nonstrikeRateText = `Strike Rate: ${(nonStriker?.batStrikeRate ?? 0).toFixed(2)}`;
-  const nonfoursSixesText = `4s/6s: ${nonStriker?.batFours ?? "0"}/${nonStriker?.batSixes ?? "0"}`;
-  const bowlerRate = `Overs: ${bowler?.bowlOvs ?? "0"} Runs: ${bowler?.bowlRuns ?? "0"} Wickets: ${bowler?.bowlWkts ?? "0"} Economy: ${bowler?.bowlEcon ?? "0"}`;
-  const lastValue = matchData?.recentOvsStats?.trim().split(" ").pop();
+  const strikerText = `${striker?.batName ?? '0'}: ${striker?.batRuns ?? '0'}(${
+    striker?.batBalls ?? '0'
+  })`;
+  const nonStrikeText = `${nonStriker?.batName ?? '0'}: ${
+    nonStriker?.batRuns ?? '0'
+  }(${nonStriker?.batBalls ?? '0'})`;
+  const strikeRateText = `Strike Rate: ${(striker?.batStrikeRate ?? 0).toFixed(
+    2,
+  )}`;
+  const foursSixesText = `4s/6s: ${striker?.batFours ?? '0'}/${
+    striker?.batSixes ?? '0'
+  }`;
+  const nonstrikeRateText = `Strike Rate: ${(
+    nonStriker?.batStrikeRate ?? 0
+  ).toFixed(2)}`;
+  const nonfoursSixesText = `4s/6s: ${nonStriker?.batFours ?? '0'}/${
+    nonStriker?.batSixes ?? '0'
+  }`;
+  const bowlerRate = `Overs: ${bowler?.bowlOvs ?? '0'} Runs: ${
+    bowler?.bowlRuns ?? '0'
+  } Wickets: ${bowler?.bowlWkts ?? '0'} Economy: ${bowler?.bowlEcon ?? '0'}`;
+  const lastValue = matchData?.recentOvsStats?.trim().split(' ').pop();
   return (
     <View style={styles.container}>
+      <WebView
+        ref={webViewRef}
+        key={audioHtml}
+        source={{html: audioHtml}}
+        style={{height: 0, width: 0}}
+        mediaPlaybackRequiresUserAction={false}
+        allowsInlineMediaPlayback
+        javaScriptEnabled
+        onLoadEnd={() => {
+          // Secondary play attempt after load
+          webViewRef?.current.injectJavaScript(`
+      const player = document.getElementById('audioPlayer');
+      if (player) {
+        player.play().catch(error => console.log('Final play attempt:', error));
+      }
+      true;
+    `);
+        }}
+      />
+
       {/* Top Section - Match Status */}
       <LinearGradient
         colors={['#000000', '#434343']}
@@ -112,8 +225,8 @@ const App = () => {
           <Animated.Image
             source={{
               uri:
-                indInnings?.teamImage ??
-                'https://upload.wikimedia.org/wikipedia/en/4/41/Flag_of_India.svg',
+                firstInnings?.teamImage ||
+                'https://example.com/default-flag.png',
             }}
             style={[
               styles.flag,
@@ -133,56 +246,63 @@ const App = () => {
                 styles.teamName,
                 {fontSize: scaleFont(32), opacity: fadeAnim},
               ]}>
-              {indInnings?.batTeamName ?? 'IND'}
+              {firstInnings?.batTeamName ?? 'Team 1'}
             </Animated.Text>
             <Animated.Text
               style={[
                 styles.score,
                 {fontSize: scaleFont(42), opacity: fadeAnim},
               ]}>
-              {indInnings?.score ?? 0}/{indInnings?.wickets ?? 0}
+              {firstInnings?.score ?? 0}/{firstInnings?.wickets ?? 0}
             </Animated.Text>
             <Animated.Text
               style={[
                 styles.over,
                 {fontSize: scaleFont(32), opacity: fadeAnim},
               ]}>
-              Over: {indInnings?.overs ?? 0.0}
+              Over: {firstInnings?.overs ?? 0.0}
             </Animated.Text>
           </View>
 
           <View
-  style={[
-    styles.progressContainer,
-    {
-      width: scaleHorizontal(60),
-      borderRadius: scaleSize(30),
-      borderWidth: scaleSize(1),
-      marginTop: scaleVertical(20),
-    },
-  ]}
->
-  <Animated.Text
-    style={[
-      styles.teamName,
-      {
-        fontSize:matchData?.event ==="OVER-BREAK"?scaleFont(25): scaleFont(55),
-        justifyContent: 'center',
-        alignSelf: 'center',
-        textAlign: 'center', // Ensures the text is centered
-        opacity: rotationAnim,
-      },
-    ]}
-    numberOfLines={2} // Limits to a single line
-    ellipsizeMode="tail" // Adds "..." if the text overflows
-    adjustsFontSizeToFit // Dynamically decreases font size (iOS specific)
- 
-  >
-    {matchData?.event === "NONE" ? lastValue : matchData?.event ?? 'BALL'}
-  </Animated.Text>
-</View>
-
-
+            style={[
+              styles.progressContainer,
+              {
+                width: scaleHorizontal(70),
+                borderRadius: scaleSize(30),
+                borderWidth: scaleSize(1),
+                marginTop: scaleVertical(20),
+              },
+            ]}>
+            <Animated.Text
+              style={[
+                styles.teamName,
+                {
+                  fontSize:
+                    matchData?.event === 'SIX'
+                      ? scaleFont(55)
+                      : matchData?.event === 'FOUR'
+                      ? scaleFont(55)
+                      : matchData?.event === 'OUT'
+                      ? scaleFont(55)
+                      : matchData?.event === 'BALL'
+                      ? scaleFont(55)
+                      : scaleFont(25),
+                  justifyContent: 'center',
+                  alignSelf: 'center',
+                  textAlign: 'center', // Ensures the text is centered
+                  opacity: rotationAnim,
+                },
+              ]}
+              numberOfLines={2} // Limits to a single line
+              ellipsizeMode="tail" // Adds "..." if the text overflows
+              adjustsFontSizeToFit // Dynamically decreases font size (iOS specific)
+            >
+              {matchData?.event === 'NONE'
+                ? lastValue
+                : matchData?.event ?? 'BALL'}
+            </Animated.Text>
+          </View>
 
           <View style={styles.scoreContainer}>
             <Animated.Text
@@ -190,30 +310,29 @@ const App = () => {
                 styles.teamName,
                 {fontSize: scaleFont(32), opacity: fadeAnim},
               ]}>
-              {engInnings?.batTeamName ? engInnings?.batTeamName : 'ENG'}
+              {secondInnings?.batTeamName ?? 'Team 2'}
             </Animated.Text>
             <Animated.Text
               style={[
                 styles.score,
                 {fontSize: scaleFont(42), opacity: fadeAnim},
               ]}>
-              {engInnings?.score ?? 0}/{engInnings?.wickets ?? 0}
+              {secondInnings?.score ?? 0}/{secondInnings?.wickets ?? 0}
             </Animated.Text>
-
             <Animated.Text
               style={[
                 styles.over,
                 {fontSize: scaleFont(32), opacity: fadeAnim},
               ]}>
-              Over: {engInnings?.overs ?? 0.0}
+              Over: {secondInnings?.overs ?? 0.0}
             </Animated.Text>
           </View>
 
           <Animated.Image
             source={{
               uri:
-                engInnings?.teamImage ??
-                'https://upload.wikimedia.org/wikipedia/commons/a/a5/Flag_of_the_United_Kingdom_(1-2).svg',
+                secondInnings?.teamImage ||
+                'https://example.com/default-flag.png',
             }}
             style={[
               styles.flag,
@@ -238,8 +357,8 @@ const App = () => {
             styles.statsText,
             {fontSize: scaleFont(20), marginTop: scaleFont(19)},
           ]}>
-          Partnership: {partnershipText?? "00"} | Last 5 Ov:{' '}
-          {matchData?.recentOvsStats ?? "0"}
+          Partnership: {partnershipText ?? '00'} | Last 5 Ov:{' '}
+          {matchData?.recentOvsStats ?? '0'}
         </Text>
       </LinearGradient>
 
@@ -312,7 +431,9 @@ const App = () => {
         style={[styles.box, {flex: 0.2 * (height / 667)}]}>
         <View style={styles.bottomBar}>
           <Text style={[styles.bottomText, {fontSize: scaleFont(24)}]}>
-            {`${tossText} \n LW: ${matchData?.lastWicket?? "0"} \n ${matchData?.status}`}
+            {`${tossText} \n LW: ${matchData?.lastWicket ?? '0'} \n ${
+              matchData?.status
+            }`}
           </Text>
         </View>
       </LinearGradient>

@@ -2,8 +2,11 @@ const express = require("express");
 const cors = require("cors");
 const axios = require("axios");
 const Fuse = require("fuse.js");
+const textToSpeech = require("./play");
+const path = require("path");
 const app = express();
 app.use(cors());
+app.use("/voices", express.static(path.join(__dirname, "public", "voices")));
 const images = [
   {
     name: "IND",
@@ -14,6 +17,15 @@ const images = [
     image:
       "https://upload.wikimedia.org/wikipedia/commons/a/a5/Flag_of_the_United_Kingdom_(1-2).svg",
   },
+  {
+    name:"ZIM",
+    image:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Flag_of_Zimbabwe.svg/1200px-Flag_of_Zimbabwe.svg.png"
+  },
+  {
+    name:"IRE",
+    image:"https://upload.wikimedia.org/wikipedia/commons/4/45/Flag_of_Ireland.svg"
+  },
+
   {
     name: "Rohit Sharma (c)",
     image:
@@ -101,6 +113,16 @@ const images = [
       "https://static-files.cricket-australia.pulselive.com/headshots/288/67-test.png",
   },
   {
+    name: "RSA",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSocgERlMQwAoEfc9oXUVBsxDU_Dzcdri2mg&s",
+  },
+  {
+    name: "PAK",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Flag_of_Pakistan.svg/800px-Flag_of_Pakistan.svg.png",
+  },
+  {
     name: "Joe Root",
     image: "https://www.espncricinfo.com/inline/content/image/1183220.html",
   },
@@ -170,38 +192,67 @@ function getPlayerImage(playerName) {
 app.get("/match-data", async (req, res) => {
   try {
     const response = await axios.get(
-      "https://www.cricbuzz.com/api/cricket-match/commentary/100328"
+      "https://www.cricbuzz.com/api/cricket-match/commentary/112479"
     );
-    
+
     const { matchHeader, commentaryList, miniscore } = response.data;
 
     // Retrieve player images using fuzzy matching
     let batsmanNonStrikerImage;
-if (miniscore?.batsmanNonStriker?.batName) {
-  batsmanNonStrikerImage = getPlayerImage(miniscore.batsmanNonStriker.batName);
-}
+    if (miniscore?.batsmanNonStriker?.batName) {
+      batsmanNonStrikerImage = getPlayerImage(
+        miniscore.batsmanNonStriker.batName
+      );
+    }
 
-let batsmanStrikerImage;
-if (miniscore?.batsmanStriker?.batName) {
-  batsmanStrikerImage = getPlayerImage(miniscore.batsmanStriker.batName);
-}
+    let batsmanStrikerImage;
+    if (miniscore?.batsmanStriker?.batName) {
+      batsmanStrikerImage = getPlayerImage(miniscore.batsmanStriker.batName);
+    }
 
-let bowlerImage;
-if (miniscore?.bowlerStriker?.bowlName) {
-  bowlerImage = getPlayerImage(miniscore.bowlerStriker.bowlName);
-}
+    let bowlerImage;
+    if (miniscore?.bowlerStriker?.bowlName) {
+      bowlerImage = getPlayerImage(miniscore.bowlerStriker.bowlName);
+    }
 
-const match = miniscore?.matchScoreDetails?.inningsScoreList?.map((inning) => ({
-    ...inning,
-    teamImage: inning.batTeamName ? getPlayerImage(inning.batTeamName) : undefined,
-  })) ?? [];
-  
-    console.log(match)
+    const match =
+      miniscore?.matchScoreDetails?.inningsScoreList?.map((inning) => ({
+        ...inning,
+        teamImage: inning.batTeamName
+          ? getPlayerImage(inning.batTeamName)
+          : undefined,
+      })) ?? [];
+
+    // Clean the commentary text
+
+    function cleanText(input) {
+      return input
+        .split(/\s+/) // Split into tokens based on whitespace
+        .filter((token) => !token.includes("$")) // Remove tokens containing $
+        .filter((token) => !/^B\d+$/.test(token)) // Remove tokens like B0, B1
+        .map((token) =>
+          token
+            .replace(/[\/|]/g, "") // Remove / and | from remaining tokens
+            .replace(/\\\w+/g, "") // Remove backslash and any following word characters
+        )
+        .filter((token) => token !== "") // Remove any resulting empty tokens
+        .join(" "); // Join back into a string
+    }
+    // Generate text-to-speech audio
+    let voice;
+    try {
+      voice = await textToSpeech(cleanText(commentaryList[0].commText));
+    } catch (err) {
+      console.error("Error generating voice:", err);
+      voice = null; // Fallback in case of an error
+    }
+
+    // Construct API response
     const api = {
       status: matchHeader.status,
       toss: matchHeader.tossResults,
       commentary: commentaryList[0].commText,
-      partnership: miniscore?.partnerShip ? miniscore?.partnerShip:0,
+      partnership: miniscore?.partnerShip ? miniscore?.partnerShip : 0,
       batsmanNonStriker: {
         ...miniscore?.batsmanNonStriker,
         image: batsmanNonStrikerImage,
@@ -216,14 +267,15 @@ const match = miniscore?.matchScoreDetails?.inningsScoreList?.map((inning) => ({
       },
       event: miniscore?.event,
       lastWicket: miniscore?.lastWicket,
-     match,
-     recentOvsStats:miniscore?.recentOvsStats
+      match,
+      recentOvsStats: miniscore?.recentOvsStats,
+      voice, // Include the voice file or URL
     };
 
     res.send(api);
   } catch (error) {
-    console.log(error)
-    res.status(500).send("error");
+    console.log("Error fetching match data:", error);
+    res.status(500).send("Error fetching match data");
   }
 });
 

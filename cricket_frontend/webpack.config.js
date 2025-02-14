@@ -11,11 +11,10 @@ const compileNodeModules = [
 ].map((moduleName) => path.resolve(appDirectory, `node_modules/${moduleName}`));
 
 const babelLoaderConfiguration = {
-  test: /\.js$|tsx?$/,
-  // Add every directory that needs to be compiled by Babel during the build.
+  test: /\.(js|jsx|ts|tsx)$/,
   include: [
-    path.resolve(__dirname, 'index.web.js'), // Entry to your application
-    path.resolve(__dirname, 'App.web.tsx'), // Change this to your main App file
+    path.resolve(__dirname, 'index.web.js'),
+    path.resolve(__dirname, 'App.web.tsx'),
     path.resolve(__dirname, 'src'),
     ...compileNodeModules,
   ],
@@ -48,15 +47,23 @@ const imageLoaderConfiguration = {
   },
 };
 
-// New font loader configuration
 const fontLoaderConfiguration = {
   test: /\.(ttf|otf|eot|woff|woff2)$/,
   use: {
     loader: 'file-loader',
     options: {
       name: '[name].[ext]',
-      // You can adjust outputPath to match where you want your fonts to be stored in the build folder.
       outputPath: 'assets/fonts/',
+    },
+  },
+};
+
+const htmlLoaderConfiguration = {
+  test: /postMock.html$/,
+  use: {
+    loader: 'file-loader',
+    options: {
+      name: '[name].[ext]',
     },
   },
 };
@@ -75,6 +82,7 @@ module.exports = {
     alias: {
       'react-native$': 'react-native-web',
       'react-native-linear-gradient': 'react-native-web-linear-gradient',
+      'react-native-webview': 'react-native-web-webview',
     },
   },
   module: {
@@ -82,7 +90,8 @@ module.exports = {
       babelLoaderConfiguration,
       imageLoaderConfiguration,
       svgLoaderConfiguration,
-      fontLoaderConfiguration, // Added font loader here
+      fontLoaderConfiguration,
+      htmlLoaderConfiguration, // Added postMock.html rule here
     ],
   },
   plugins: [
@@ -91,7 +100,6 @@ module.exports = {
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
-      // See: https://github.com/necolas/react-native-web/issues/349
       __DEV__: JSON.stringify(true),
     }),
   ],
