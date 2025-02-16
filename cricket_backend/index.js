@@ -192,7 +192,7 @@ function getPlayerImage(playerName) {
 app.get("/match-data", async (req, res) => {
   try {
     const response = await axios.get(
-      "https://www.cricbuzz.com/api/cricket-match/commentary/112479"
+      "https://www.cricbuzz.com/api/cricket-match/commentary/100283"
     );
 
     const { matchHeader, commentaryList, miniscore } = response.data;
@@ -297,6 +297,8 @@ app.get("/match-data", async (req, res) => {
       },
       event: miniscore?.event,
       lastWicket: miniscore?.lastWicket,
+      currentRunrate:miniscore?.currentRunRate,
+      requiredRunRate:miniscore?.requiredRunRate,
       match,
       recentOvsStats: miniscore?.recentOvsStats,
       voice, // Include the voice file or URL

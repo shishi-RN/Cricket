@@ -11,6 +11,8 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import axios from 'axios';
 import {WebView} from 'react-native-webview';
+import BlurView from '@react-native-community/blur/lib/typescript/components/BlurView.ios';
+import {Image} from 'react-native-svg';
 const {width, height} = Dimensions.get('window');
 
 // Responsive scaling functions
@@ -195,6 +197,17 @@ const App = () => {
     bowler?.bowlRuns ?? '0'
   } Wickets: ${bowler?.bowlWkts ?? '0'} Economy: ${bowler?.bowlEcon ?? '0'}`;
   const lastValue = matchData?.recentOvsStats?.trim().split(' ').pop();
+  const getEventValue = event => {
+    if (!event || event === 'NONE') return lastValue;
+    if (event.includes('_')) return 'BALL';
+    if (event.includes('OVER-BREAK')) return 'OVER';
+    if (event.includes('FIFTY')) return 'FIFTY';
+    if (event.includes('HUNDRED')) return 'HUNDRED';
+    return event;
+  };
+
+  const eventValue = getEventValue(matchData?.event);
+
   return (
     <View style={styles.container}>
       <WebView
@@ -244,7 +257,7 @@ const App = () => {
             <Animated.Text
               style={[
                 styles.teamName,
-                {fontSize: scaleFont(32), opacity: fadeAnim},
+                {fontSize: scaleFont(42), opacity: fadeAnim},
               ]}>
               {firstInnings?.batTeamName ?? 'Team 1'}
             </Animated.Text>
@@ -278,16 +291,7 @@ const App = () => {
               style={[
                 styles.teamName,
                 {
-                  fontSize:
-                    matchData?.event === 'SIX'
-                      ? scaleFont(55)
-                      : matchData?.event === 'FOUR'
-                      ? scaleFont(55)
-                      : matchData?.event === 'OUT'
-                      ? scaleFont(55)
-                      : matchData?.event === 'BALL'
-                      ? scaleFont(55)
-                      : scaleFont(25),
+                  fontSize: scaleFont(55),
                   justifyContent: 'center',
                   alignSelf: 'center',
                   textAlign: 'center', // Ensures the text is centered
@@ -298,9 +302,7 @@ const App = () => {
               ellipsizeMode="tail" // Adds "..." if the text overflows
               adjustsFontSizeToFit // Dynamically decreases font size (iOS specific)
             >
-              {matchData?.event === 'NONE'
-                ? lastValue
-                : matchData?.event ?? 'BALL'}
+              {matchData?.event === 'NONE' ? lastValue : eventValue ?? 'BALL'}
             </Animated.Text>
           </View>
 
@@ -308,7 +310,7 @@ const App = () => {
             <Animated.Text
               style={[
                 styles.teamName,
-                {fontSize: scaleFont(32), opacity: fadeAnim},
+                {fontSize: scaleFont(42), opacity: fadeAnim},
               ]}>
               {secondInnings?.batTeamName ?? 'Team 2'}
             </Animated.Text>
@@ -355,10 +357,15 @@ const App = () => {
         <Text
           style={[
             styles.statsText,
-            {fontSize: scaleFont(20), marginTop: scaleFont(19)},
+            {fontSize: scaleFont(30), marginTop: scaleFont(5)},
           ]}>
-          Partnership: {partnershipText ?? '00'} | Last 5 Ov:{' '}
-          {matchData?.recentOvsStats ?? '0'}
+          Partnership: {partnershipText ?? '00'} | CRR :{' '}
+          {matchData?.currentRunrate} | RRR : {matchData?.currentRunrate} |{' '}
+          <View style={styles.glassContainer}>
+            <Text style={styles.overText}>
+              Over: {matchData?.recentOvsStats?.replace(/^.*?\|\s*/, '') ?? '0'}
+            </Text>
+          </View>
         </Text>
       </LinearGradient>
 
@@ -393,35 +400,94 @@ const App = () => {
       <LinearGradient
         colors={['#2a0a3d', '#531d8a']}
         style={[styles.box, {flex: 0.2 * (height / 667)}]}>
+        {/* Striker */}
         <View style={styles.playerStats}>
-          <Text style={[styles.statItem, {fontSize: scaleFont(26)}]}>
-            {strikerText}
-          </Text>
-          <Text style={[styles.statItem, {fontSize: scaleFont(26)}]}>
-            {strikeRateText}
-          </Text>
-          <Text style={[styles.statItem, {fontSize: scaleFont(26)}]}>
-            {foursSixesText}
-          </Text>
+          
+          <Animated.Image
+            source={{
+              uri:
+               'https://cricketvectors.akamaized.net/players/org/1DH.png?impolicy=default_web',
+            }}
+            style={[
+              {
+                width: width * 0.1,
+                height: (width * 0.5) / FLAG_ASPECT_RATIO,
+                marginRight: 20,
+                marginLeft: 40,
+                borderRadius: scaleSize(4),
+              },
+            ]}
+            resizeMode="contain"
+          />
+          <View style={styles.textContainer}>
+            <Text style={[styles.statItem, {fontSize: scaleFont(20)}]}>
+              {strikerText}
+            </Text>
+            <Text style={[styles.statItem, {fontSize: scaleFont(20)}]}>
+              {strikeRateText}
+            </Text>
+            <Text style={[styles.statItem, {fontSize: scaleFont(20)}]}>
+              {foursSixesText}
+            </Text>
+          </View>
         </View>
+
+        {/* Non-striker */}
         <View style={styles.playerStats}>
-          <Text style={[styles.statItem, {fontSize: scaleFont(26)}]}>
-            {nonStrikeText}
-          </Text>
-          <Text style={[styles.statItem, {fontSize: scaleFont(26)}]}>
-            {nonstrikeRateText}
-          </Text>
-          <Text style={[styles.statItem, {fontSize: scaleFont(26)}]}>
-            {nonfoursSixesText}
-          </Text>
+          <Animated.Image
+            source={{
+              uri:
+               'https://cricketvectors.akamaized.net/players/org/D9.png?impolicy=default_web',
+            }}
+            style={[
+              {
+                width: width * 0.1,
+                height: (width * 0.5) / FLAG_ASPECT_RATIO,
+                marginRight: 20,
+
+                borderRadius: scaleSize(4),
+              },
+            ]}
+            resizeMode="contain"
+          />
+          <View style={styles.textContainer}>
+            <Text style={[styles.statItem, {fontSize: scaleFont(20)}]}>
+              {nonStrikeText}
+            </Text>
+            <Text style={[styles.statItem, {fontSize: scaleFont(20)}]}>
+              {nonstrikeRateText}
+            </Text>
+            <Text style={[styles.statItem, {fontSize: scaleFont(20)}]}>
+              {nonfoursSixesText}
+            </Text>
+          </View>
         </View>
-        <View style={styles.playerStats}>
-          <Text style={[styles.statItem, {fontSize: scaleFont(26)}]}>
-            {bowler?.bowlName}
-          </Text>
-          <Text style={[styles.statItem, {fontSize: scaleFont(26)}]}>
-            {bowlerRate}
-          </Text>
+
+        {/* Bowler */}
+        <View style={[styles.playerStats,{marginRight:20}]}>
+          <Animated.Image
+            source={{
+              uri:
+                "https://cricketvectors.akamaized.net/players/org/2K.png?impolicy=default_web"
+            }}
+            style={[
+              {
+                width: width * 0.1,
+                height: (width * 0.5) / FLAG_ASPECT_RATIO,
+                marginRight: 20,
+                borderRadius: scaleSize(4),
+              },
+            ]}
+            resizeMode="contain"
+          />
+          <View style={styles.textContainer}>
+            <Text style={[styles.statItem, {fontSize: scaleFont(20)}]}>
+              {bowler?.bowlName}
+            </Text>
+            <Text style={[styles.statItem, {fontSize: scaleFont(20)}]}>
+              {bowlerRate}
+            </Text>
+          </View>
         </View>
       </LinearGradient>
 
@@ -451,33 +517,88 @@ const styles = StyleSheet.create({
   box: {
     marginVertical: scaleVertical(2),
     overflow: 'hidden',
+    flexDirection: 'row',
   },
   flagContainer: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-evenly',
     alignItems: 'center',
     paddingHorizontal: scaleHorizontal(8),
   },
   scoreContainer: {
     minWidth: width * 0.2,
     alignItems: 'center',
-    marginHorizontal: scaleHorizontal(4),
   },
   teamName: {
     color: 'white',
-    fontFamily: 'mudstone',
-    marginBottom: scaleVertical(4),
+    fontFamily: 'rajhadhanibold',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: {width: 2, height: 2},
+    textShadowRadius: 3,
   },
   score: {
     color: 'white',
-    fontFamily: 'lean',
-    marginBottom: scaleVertical(4),
+    fontFamily: 'rajhadhanibold',
+    marginTop: -20,
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: {width: 2, height: 2},
+    textShadowRadius: 3,
   },
+  glassContainer: {
+    backgroundColor: 'rgba(255, 255, 255, 0.15)', // Semi-transparent white
+    borderRadius: 20,
+    height: '70%',
+    paddingHorizontal: 6,
+    justifyContent: 'center',
+
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.2)', // Subtle border
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2, // For Android
+  },
+  statItem: {
+    color: 'white',
+    fontFamily: 'rajhadhanibold',
+    textAlign: 'left', // Align left for better readability
+  },
+  playerStats: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  playerImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 25, // Circular image
+    marginRight: 10, // Spacing between image and text
+  },
+  textContainer: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  overText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: scaleFont(30),
+    textShadowColor: 'rgba(0, 0, 0, 0.3)', // Text shadow for better readability
+    textShadowOffset: {width: 1, height: 1},
+    textShadowRadius: 2,
+  },
+
   over: {
     color: 'yellow',
-    fontFamily: 'lean',
+    fontFamily: 'rajhadhanibold',
+    marginTop: -20,
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: {width: 2, height: 2},
+    textShadowRadius: 3,
   },
+
   progressContainer: {
     height: '60%',
     backgroundColor: 'black',
@@ -509,36 +630,45 @@ const styles = StyleSheet.create({
     textShadowOffset: {width: 1, height: 1},
     textShadowRadius: 3,
   },
-  playerStats: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    paddingHorizontal: scaleHorizontal(16),
-  },
-  statItem: {
-    color: 'white',
-    fontFamily: 'lean',
-    textAlign: 'center',
-  },
+  // playerStats: {
+  //   flex: 1,
+  //   flexDirection: 'row',
+  //   justifyContent: 'space-around',
+  //   alignItems: 'center',
+  //   paddingHorizontal: scaleHorizontal(16),
+  // },
+  // statItem: {
+  //   color: 'white',
+  //   fontFamily: 'rajhadhanibold',
+  //   textAlign: 'center',
+  // },
   bottomBar: {
     flex: 1,
     justifyContent: 'space-evenly',
     alignItems: 'center',
     flexDirection: 'row',
     paddingHorizontal: scaleHorizontal(16),
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: {width: 2, height: 2},
+    textShadowRadius: 3,
   },
   bottomText: {
     color: 'white',
-    fontFamily: 'lean',
+    fontFamily: 'rajhadhanibold',
     textAlign: 'center',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: {width: 2, height: 2},
+    textShadowRadius: 3,
   },
   statsText: {
     color: 'white',
-    fontFamily: 'lean',
+    fontFamily: 'rajhadhanibold',
     textAlign: 'center',
     flex: 1,
     textAlignVertical: 'center',
+    textShadowColor: 'rgba(0, 0, 0, 0.75)',
+    textShadowOffset: {width: 2, height: 2},
+    textShadowRadius: 3,
   },
 });
 
