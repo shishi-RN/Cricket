@@ -195,7 +195,7 @@ const App = () => {
   }`;
   const bowlerRate = `Overs: ${bowler?.bowlOvs ?? '0'} Runs: ${
     bowler?.bowlRuns ?? '0'
-  } Wickets: ${bowler?.bowlWkts ?? '0'} Economy: ${bowler?.bowlEcon ?? '0'}`;
+  }\nWickets: ${bowler?.bowlWkts ?? '0'} Economy: ${bowler?.bowlEcon ?? '0'}`;
   const lastValue = matchData?.recentOvsStats?.trim().split(' ').pop();
   const getEventValue = event => {
     if (!event || event === 'NONE') return lastValue;
@@ -402,23 +402,42 @@ const App = () => {
         style={[styles.box, {flex: 0.2 * (height / 667)}]}>
         {/* Striker */}
         <View style={styles.playerStats}>
-          
+          {/* Head Image */}
+
           <Animated.Image
             source={{
-              uri:
-               'https://cricketvectors.akamaized.net/players/org/1DH.png?impolicy=default_web',
+              uri: matchData?.batsmanStriker?.image?.head,
+            }}
+            //  style={[styles.image, { bottom: "40%" }]}
+            style={[
+              {
+                width: 100,
+                height: 100,
+                position: 'absolute',
+                resizeMode: 'contain',
+                bottom: 5,
+                left: '10%',
+              },
+            ]}
+          />
+
+          {/* Body Image (Same size as head) */}
+          <Animated.Image
+            source={{
+              uri: matchData?.batsmanStriker?.image?.body,
             }}
             style={[
               {
-                width: width * 0.1,
-                height: (width * 0.5) / FLAG_ASPECT_RATIO,
-                marginRight: 20,
-                marginLeft: 40,
-                borderRadius: scaleSize(4),
+                width: 100,
+                height: 100,
+                position: 'absolute',
+                resizeMode: 'contain',
+                top: 40,
+                left: '10%',
               },
             ]}
-            resizeMode="contain"
           />
+
           <View style={styles.textContainer}>
             <Text style={[styles.statItem, {fontSize: scaleFont(20)}]}>
               {strikerText}
@@ -436,20 +455,38 @@ const App = () => {
         <View style={styles.playerStats}>
           <Animated.Image
             source={{
-              uri:
-               'https://cricketvectors.akamaized.net/players/org/D9.png?impolicy=default_web',
+              uri: matchData?.batsmanNonStriker?.image?.head,
+            }}
+            //  style={[styles.image, { bottom: "40%" }]}
+            style={[
+              {
+                width: 100,
+                height: 100,
+                position: 'absolute',
+                resizeMode: 'contain',
+                bottom: 5,
+                left: '10%',
+              },
+            ]}
+          />
+
+          {/* Body Image (Same size as head) */}
+          <Animated.Image
+            source={{
+              uri: matchData?.batsmanNonStriker?.image?.body,
             }}
             style={[
               {
-                width: width * 0.1,
-                height: (width * 0.5) / FLAG_ASPECT_RATIO,
-                marginRight: 20,
-
-                borderRadius: scaleSize(4),
+                width: 100,
+                height: 100,
+                position: 'absolute',
+                resizeMode: 'contain',
+                top: 40,
+                left: '10%',
               },
             ]}
-            resizeMode="contain"
           />
+
           <View style={styles.textContainer}>
             <Text style={[styles.statItem, {fontSize: scaleFont(20)}]}>
               {nonStrikeText}
@@ -464,22 +501,41 @@ const App = () => {
         </View>
 
         {/* Bowler */}
-        <View style={[styles.playerStats,{marginRight:20}]}>
+        <View style={[styles.playerStats, {marginRight: 20}]}>
           <Animated.Image
             source={{
-              uri:
-                "https://cricketvectors.akamaized.net/players/org/2K.png?impolicy=default_web"
+              uri: matchData?.bowler?.image?.head,
+            }}
+            //  style={[styles.image, { bottom: "40%" }]}
+            style={[
+              {
+                width: 100,
+                height: 100,
+                position: 'absolute',
+                resizeMode: 'contain',
+                bottom: 5,
+                left: '10%',
+              },
+            ]}
+          />
+
+          {/* Body Image (Same size as head) */}
+          <Animated.Image
+            source={{
+              uri: matchData?.bowler?.image?.body,
             }}
             style={[
               {
-                width: width * 0.1,
-                height: (width * 0.5) / FLAG_ASPECT_RATIO,
-                marginRight: 20,
-                borderRadius: scaleSize(4),
+                width: 100,
+                height: 100,
+                position: 'absolute',
+                resizeMode: 'contain',
+                top: 40,
+                left: '10%',
               },
             ]}
-            resizeMode="contain"
           />
+
           <View style={styles.textContainer}>
             <Text style={[styles.statItem, {fontSize: scaleFont(20)}]}>
               {bowler?.bowlName}
@@ -530,6 +586,14 @@ const styles = StyleSheet.create({
     minWidth: width * 0.2,
     alignItems: 'center',
   },
+  container2: {
+    flex: 1,
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+  },
   teamName: {
     color: 'white',
     fontFamily: 'rajhadhanibold',
@@ -569,6 +633,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
+    alignContent: 'center',
     justifyContent: 'space-between',
   },
   playerImage: {
@@ -580,6 +645,7 @@ const styles = StyleSheet.create({
   textContainer: {
     flex: 1,
     justifyContent: 'center',
+    left: '40%',
   },
   overText: {
     color: 'white',

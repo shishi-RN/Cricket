@@ -1,7 +1,200 @@
 [
   {
+    "name": "Virat Kohli",
+    "team": "IND",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Virat_Kohli.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/IND.png"
+  },
+  {
+    "name": "Rohith sharma",
+    "team": "IND",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Rohith_sharma.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/IND.png"
+  },
+  {
     "name": "Sanju Samson",
-    "head": "/Volumes/XCODE/Github/Virally/api/PLAYERS/Sanju_Samson.png",
-    "body": "/Volumes/XCODE/Github/Virally/api/PLAYERS/IND.png"
+    "team": "IND",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Sanju_Samson.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/IND.png"
+  },
+  {
+    "name": "Craig Ervine",
+    "team": "ZIM",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Craig_Ervine.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/ZIM.png"
+  },
+  {
+    "name": "Tadiwanashe Marumani",
+    "team": "ZIM",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Tadiwanashe_Marumani.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/ZIM.png"
+  },
+  {
+    "name": "Brian Bennett",
+    "team": "ZIM",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Brian_Bennett.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/ZIM.png"
+  },
+  {
+    "name": "Ben Curran",
+    "team": "ZIM",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Ben_Curran.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/ZIM.png"
+  },
+  {
+    "name": "Sikandar Raza",
+    "team": "ZIM",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Sikandar_Raza.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/ZIM.png"
+  },
+  {
+    "name": "Wessly Madhevere",
+    "team": "ZIM",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Wessly_Madhevere.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/ZIM.png"
+  },
+  {
+    "name": "Johnathan Campbell",
+    "team": "ZIM",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Johnathan_Campbell.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/ZIM.png"
+  },
+  {
+    "name": "Wellington Masakadza",
+    "team": "ZIM",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Wellington_Masakadza.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/ZIM.png"
+  },
+  {
+    "name": "Newman Nyamhuri",
+    "team": "ZIM",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Newman_Nyamhuri.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/ZIM.png"
+  },
+  {
+    "name": "Blessing Muzarabani",
+    "team": "ZIM",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Blessing_Muzarabani.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/ZIM.png"
+  },
+  {
+    "name": "Richard Ngarava",
+    "team": "ZIM",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Richard_Ngarava.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/ZIM.png"
+  },
+  {
+    "name": "Trevor Gwandu",
+    "team": "ZIM",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Trevor_Gwandu.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/ZIM.png"
+  },
+  {
+    "name": "Tinotenda Maposa",
+    "team": "ZIM",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Tinotenda_Maposa.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/ZIM.png"
+  },
+  {
+    "name": "Nyasha Mayavo",
+    "team": "ZIM",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Nyasha_Mayavo.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/ZIM.png"
+  },
+  {
+    "name": "Sean Williams",
+    "team": "ZIM",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Sean_Williams.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/ZIM.png"
+  },
+  {
+    "name": "Paul Stirling",
+    "team": "IRE",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Paul_Stirling.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/IRE.png"
+  },
+  {
+    "name": "Lorcan Tucker",
+    "team": "IRE",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Lorcan_Tucker.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/IRE.png"
+  },
+  {
+    "name": "Andrew Balbirnie",
+    "team": "IRE",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Andrew_Balbirnie.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/IRE.png"
+  },
+  {
+    "name": "Curtis Campher",
+    "team": "IRE",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Curtis_Campher.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/IRE.png"
+  },
+  {
+    "name": "Harry Tector",
+    "team": "IRE",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Harry_Tector.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/IRE.png"
+  },
+  {
+    "name": "George Dockrell",
+    "team": "IRE",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/George_Dockrell.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/IRE.png"
+  },
+  {
+    "name": "Mark Adair",
+    "team": "IRE",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Mark_Adair.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/IRE.png"
+  },
+  {
+    "name": "Andy McBrine",
+    "team": "IRE",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Andy_McBrine.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/IRE.png"
+  },
+  {
+    "name": "Graham Hume",
+    "team": "IRE",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Graham_Hume.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/IRE.png"
+  },
+  {
+    "name": "Matthew Humphreys",
+    "team": "IRE",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Matthew_Humphreys.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/IRE.png"
+  },
+  {
+    "name": "Joshua Little",
+    "team": "IRE",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Joshua_Little.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/IRE.png"
+  },
+  {
+    "name": "Morgan Topping",
+    "team": "IRE",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Morgan_Topping.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/IRE.png"
+  },
+  {
+    "name": "Gavin Hoey",
+    "team": "IRE",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Gavin_Hoey.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/IRE.png"
+  },
+  {
+    "name": "Barry McCarthy",
+    "team": "IRE",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Barry_McCarthy.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/IRE.png"
+  },
+  {
+    "name": "Craig Young",
+    "team": "IRE",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Craig_Young.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/IRE.png"
   }
 ]
