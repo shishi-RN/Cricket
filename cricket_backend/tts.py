@@ -1,11 +1,21 @@
 import asyncio
 import edge_tts
 import sys
+import random
+
+# List of available en-IN voices. You can add more voices if available.
+EN_IN_VOICES = [
+    "en-IN-PrabhatNeural",
+    "en-IN-NeerjaNeural"
+]
 
 async def generate_speech(text, output_file="output.mp3", rate="+20%"):
     try:
-        # Adjust the speech rate using the rate parameter
-        communicate = edge_tts.Communicate(text=text, voice="en-IN-PrabhatNeural", rate=rate)
+        # Choose a random voice from the list
+        voice = random.choice(EN_IN_VOICES)
+        print(f"Using voice: {voice}")
+        
+        communicate = edge_tts.Communicate(text=text, voice=voice, rate=rate)
         await communicate.save(output_file)
         return output_file
     except Exception as e:

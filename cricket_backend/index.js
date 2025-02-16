@@ -18,12 +18,14 @@ const images = [
       "https://upload.wikimedia.org/wikipedia/commons/a/a5/Flag_of_the_United_Kingdom_(1-2).svg",
   },
   {
-    name:"ZIM",
-    image:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Flag_of_Zimbabwe.svg/1200px-Flag_of_Zimbabwe.svg.png"
+    name: "ZIM",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/Flag_of_Zimbabwe.svg/1200px-Flag_of_Zimbabwe.svg.png",
   },
   {
-    name:"IRE",
-    image:"https://upload.wikimedia.org/wikipedia/commons/4/45/Flag_of_Ireland.svg"
+    name: "IRE",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/4/45/Flag_of_Ireland.svg",
   },
 
   {
@@ -175,24 +177,41 @@ const images = [
     image: "https://www.espncricinfo.com/inline/content/image/1183232.html",
   },
 ];
-
-function getPlayerImage(playerName) {
+const players = require("./Players/players.json");
+function getTeamImage(playerName) {
   const options = {
     keys: ["name"],
     threshold: 0.3, // Adjust this value based on desired matching sensitivity
   };
   const fuse = new Fuse(images, options);
   const result = fuse.search(playerName);
+
   if (result.length > 0) {
     return result[0].item.image;
   }
   return null; // Return null if no close match is found
 }
+function getPlayerImage(playerName) {
+  const options = {
+    keys: ["name"],
+    threshold: 0.3, // Adjust this value based on desired matching sensitivity
+  };
+  const fuse = new Fuse(players, options);
+  const result = fuse.search(playerName);
+
+  if (result.length > 0) {
+    return { head: result[0].item.head, body: result[0].item.body };
+  }
+  return null; // Return null if no close match is found
+}
+
+// Assuming previousComment is defined outside the route so that it persists between API calls
+let previousComment = ""; // define globally outside the route
 
 app.get("/match-data", async (req, res) => {
   try {
     const response = await axios.get(
-      "https://www.cricbuzz.com/api/cricket-match/commentary/100283"
+      "https://www.cricbuzz.com/api/cricket-match/commentary/112483"
     );
 
     const { matchHeader, commentaryList, miniscore } = response.data;
@@ -216,22 +235,23 @@ app.get("/match-data", async (req, res) => {
     }
 
     const match = (() => {
-      const inningsScoreList = miniscore?.matchScoreDetails?.inningsScoreList || [];
+      const inningsScoreList =
+        miniscore?.matchScoreDetails?.inningsScoreList || [];
       const { team1, team2 } = matchHeader;
-    
+
       // Get list of team IDs that have batted
-      const battedTeamIds = inningsScoreList.map(inning => inning.batTeamId);
-    
+      const battedTeamIds = inningsScoreList.map((inning) => inning.batTeamId);
+
       // Add missing innings for teams that haven't batted yet
       const allInnings = [...inningsScoreList];
-      
+
       // Check and add second innings if needed
       if (allInnings.length < 2) {
         const nextInningsId = allInnings.length + 1;
         const nextBattingTeam = [team1, team2].find(
-          team => !battedTeamIds.includes(team.id)
+          (team) => !battedTeamIds.includes(team.id)
         );
-    
+
         if (nextBattingTeam) {
           allInnings.push({
             inningsId: nextInningsId,
@@ -242,39 +262,55 @@ app.get("/match-data", async (req, res) => {
             overs: 0,
             isDeclared: false,
             isFollowOn: false,
-            ballNbr: 0
+            ballNbr: 0,
           });
         }
       }
-    
-      return allInnings.map(inning => ({
+
+      return allInnings.map((inning) => ({
         ...inning,
-        teamImage: getPlayerImage(inning.batTeamName),
+        teamImage: getTeamImage(inning.batTeamName),
       }));
     })();
 
     // Clean the commentary text
-
     function cleanText(input) {
       return input
         .split(/\s+/) // Split into tokens based on whitespace
         .filter((token) => !token.includes("$")) // Remove tokens containing $
         .filter((token) => !/^B\d+$/.test(token)) // Remove tokens like B0, B1
-        .map((token) =>
-          token
-            .replace(/[\/|]/g, "") // Remove / and | from remaining tokens
-            .replace(/\\\w+/g, "") // Remove backslash and any following word characters
+        .map(
+          (token) =>
+            token
+              .replace(/[\/|]/g, "") // Remove / and | from remaining tokens
+              .replace(/\\\w+/g, "") // Remove backslash and any following word characters
         )
         .filter((token) => token !== "") // Remove any resulting empty tokens
         .join(" "); // Join back into a string
     }
+
     // Generate text-to-speech audio
     let voice;
-    try {
-      voice = await textToSpeech(cleanText(commentaryList[0].commText));
-    } catch (err) {
-      console.error("Error generating voice:", err);
-      voice = null; // Fallback in case of an error
+    const currentComment = cleanText(commentaryList[0].commText);
+console.log(currentComment)
+    // Remove the repeated text (if the current comment starts with the previous comment)
+    let uniqueComment = currentComment;
+    if (previousComment && currentComment.startsWith(previousComment)) {
+      uniqueComment = currentComment.slice(previousComment.length).trim();
+    }
+
+    // If there's no new text, you might want to skip TTS generation
+    if (uniqueComment === "") {
+      voice = undefined;
+    } else {
+      try {
+        voice = await textToSpeech(uniqueComment);
+        // Update previousComment with the full current comment for the next call
+        previousComment = currentComment;
+      } catch (err) {
+        console.error("Error generating voice:", err);
+        voice = null; // Fallback in case of an error
+      }
     }
 
     // Construct API response
@@ -297,8 +333,8 @@ app.get("/match-data", async (req, res) => {
       },
       event: miniscore?.event,
       lastWicket: miniscore?.lastWicket,
-      currentRunrate:miniscore?.currentRunRate,
-      requiredRunRate:miniscore?.requiredRunRate,
+      currentRunrate: miniscore?.currentRunRate,
+      requiredRunRate: miniscore?.requiredRunRate,
       match,
       recentOvsStats: miniscore?.recentOvsStats,
       voice, // Include the voice file or URL
@@ -310,5 +346,6 @@ app.get("/match-data", async (req, res) => {
     res.status(500).send("Error fetching match data");
   }
 });
+
 
 app.listen(3000, () => console.log("Server running on port 3000"));
