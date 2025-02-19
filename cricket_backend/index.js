@@ -13,9 +13,17 @@ const images = [
     image: "https://upload.wikimedia.org/wikipedia/en/4/41/Flag_of_India.svg",
   },
   {
+    name:"NZ",
+    image:"https://upload.wikimedia.org/wikipedia/commons/3/3e/Flag_of_New_Zealand.svg"
+  },
+  {
     name: "ENG",
     image:
       "https://upload.wikimedia.org/wikipedia/commons/a/a5/Flag_of_the_United_Kingdom_(1-2).svg",
+  },
+  {
+    name:"PAK",
+    image:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Flag_of_Pakistan.svg/800px-Flag_of_Pakistan.svg.png"
   },
   {
     name: "ZIM",
@@ -119,11 +127,7 @@ const images = [
     image:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSocgERlMQwAoEfc9oXUVBsxDU_Dzcdri2mg&s",
   },
-  {
-    name: "PAK",
-    image:
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Flag_of_Pakistan.svg/800px-Flag_of_Pakistan.svg.png",
-  },
+ 
   {
     name: "Joe Root",
     image: "https://www.espncricinfo.com/inline/content/image/1183220.html",

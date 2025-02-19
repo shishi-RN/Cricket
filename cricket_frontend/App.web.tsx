@@ -195,7 +195,7 @@ const App = () => {
   }`;
   const bowlerRate = `Overs: ${bowler?.bowlOvs ?? '0'} Runs: ${
     bowler?.bowlRuns ?? '0'
-  }\nWickets: ${bowler?.bowlWkts ?? '0'} Economy: ${bowler?.bowlEcon ?? '0'}`;
+  }\nWickets: ${bowler?.bowlWkts ?? '0'} \n Economy: ${bowler?.bowlEcon ?? '0'}`;
   const lastValue = matchData?.recentOvsStats?.trim().split(' ').pop();
   const getEventValue = event => {
     if (!event || event === 'NONE') return lastValue;
@@ -371,30 +371,32 @@ const App = () => {
 
       {/* Main Content Area */}
       <LinearGradient
-        colors={['#3e0000', '#7a0000']}
-        style={[styles.box, {flex: 0.4 * (height / 667)}]}>
-        <View style={styles.backgroundContainer}>
-          <Animated.Image
-            source={{
-              uri: 'https://upload.wikimedia.org/wikipedia/commons/6/6e/Wankhede_ICC_WCF.jpg',
-            }}
-            style={[
-              styles.backgroundImage,
-              {
-                width: width,
-                height: height * 0.4,
-                borderRadius: scaleSize(8),
-              },
-            ]}
-            resizeMode="cover"
-          />
-        </View>
-        <View style={styles.overlayContent}>
-          {/* <Text style={[styles.stadiumText, {fontSize: scaleFont(36)}]}>
-            Wankhede Stadium
-          </Text> */}
-        </View>
-      </LinearGradient>
+      colors={['#3e0000', '#7a0000']}
+      style={[styles.box, { flex: 0.4 * (height / 667) }]}
+    >
+      <View style={styles.backgroundContainer}>
+        <Animated.Image
+          source={{
+            uri: 'https://upload.wikimedia.org/wikipedia/commons/6/6e/Wankhede_ICC_WCF.jpg',
+          }}
+          style={[
+            styles.backgroundImage,
+            {
+              width: width,
+              height: height * 0.4,
+              borderRadius: scaleSize(8),
+            },
+          ]}
+          resizeMode="cover"
+        />
+        {/* GIF overlay */}
+        <Image
+          source={require('./assets/four.gif')}
+          style={styles.gifImage}
+          resizeMode="contain"
+        />
+      </View>
+    </LinearGradient>
 
       {/* Player Stats */}
       <LinearGradient
@@ -432,7 +434,7 @@ const App = () => {
                 height: 100,
                 position: 'absolute',
                 resizeMode: 'contain',
-                top: 40,
+                top: 30,
                 left: '10%',
               },
             ]}
@@ -481,7 +483,7 @@ const App = () => {
                 height: 100,
                 position: 'absolute',
                 resizeMode: 'contain',
-                top: 40,
+                top: 30,
                 left: '10%',
               },
             ]}
@@ -530,7 +532,7 @@ const App = () => {
                 height: 100,
                 position: 'absolute',
                 resizeMode: 'contain',
-                top: 40,
+                top: 30,
                 left: '10%',
               },
             ]}
@@ -604,10 +606,17 @@ const styles = StyleSheet.create({
   score: {
     color: 'white',
     fontFamily: 'rajhadhanibold',
-    marginTop: -20,
+
     textShadowColor: 'rgba(0, 0, 0, 0.75)',
     textShadowOffset: {width: 2, height: 2},
     textShadowRadius: 3,
+  },
+  gifImage: {
+    position: 'absolute',
+    bottom: 10,
+    right: 10,
+    width: 60,
+    height: 60,
   },
   glassContainer: {
     backgroundColor: 'rgba(255, 255, 255, 0.15)', // Semi-transparent white
@@ -639,13 +648,13 @@ const styles = StyleSheet.create({
   playerImage: {
     width: 50,
     height: 50,
-    borderRadius: 25, // Circular image
-    marginRight: 10, // Spacing between image and text
+    borderRadius: 25, 
+    marginRight: 10, 
   },
   textContainer: {
     flex: 1,
     justifyContent: 'center',
-    left: '40%',
+    left: '50%',
   },
   overText: {
     color: 'white',
@@ -659,7 +668,7 @@ const styles = StyleSheet.create({
   over: {
     color: 'yellow',
     fontFamily: 'rajhadhanibold',
-    marginTop: -20,
+  
     textShadowColor: 'rgba(0, 0, 0, 0.75)',
     textShadowOffset: {width: 2, height: 2},
     textShadowRadius: 3,
