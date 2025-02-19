@@ -195,7 +195,9 @@ const App = () => {
   }`;
   const bowlerRate = `Overs: ${bowler?.bowlOvs ?? '0'} Runs: ${
     bowler?.bowlRuns ?? '0'
-  }\nWickets: ${bowler?.bowlWkts ?? '0'} \n Economy: ${bowler?.bowlEcon ?? '0'}`;
+  }\nWickets: ${bowler?.bowlWkts ?? '0'} \n Economy: ${
+    bowler?.bowlEcon ?? '0'
+  }`;
   const lastValue = matchData?.recentOvsStats?.trim().split(' ').pop();
   const getEventValue = event => {
     if (!event || event === 'NONE') return lastValue;
@@ -291,7 +293,10 @@ const App = () => {
               style={[
                 styles.teamName,
                 {
-                  fontSize: scaleFont(55),
+                  fontSize:
+                    matchData?.event === 'WICKET'
+                      ? scaleFont(35)
+                      : scaleFont(55),
                   justifyContent: 'center',
                   alignSelf: 'center',
                   textAlign: 'center', // Ensures the text is centered
@@ -359,8 +364,8 @@ const App = () => {
             styles.statsText,
             {fontSize: scaleFont(30), marginTop: scaleFont(5)},
           ]}>
-          Partnership: {partnershipText ?? '00'} | CRR :{' '}
-          {matchData?.currentRunrate} | RRR : {matchData?.currentRunrate} |{' '}
+          P/S: {partnershipText ?? '00'} | CRR : {matchData?.currentRunrate} |
+          RRR : {matchData?.requiredRunRate} |{' '}
           <View style={styles.glassContainer}>
             <Text style={styles.overText}>
               Over: {matchData?.recentOvsStats?.replace(/^.*?\|\s*/, '') ?? '0'}
@@ -371,32 +376,31 @@ const App = () => {
 
       {/* Main Content Area */}
       <LinearGradient
-      colors={['#3e0000', '#7a0000']}
-      style={[styles.box, { flex: 0.4 * (height / 667) }]}
-    >
-      <View style={styles.backgroundContainer}>
-        <Animated.Image
-          source={{
-            uri: 'https://upload.wikimedia.org/wikipedia/commons/6/6e/Wankhede_ICC_WCF.jpg',
-          }}
-          style={[
-            styles.backgroundImage,
-            {
-              width: width,
-              height: height * 0.4,
-              borderRadius: scaleSize(8),
-            },
-          ]}
-          resizeMode="cover"
-        />
-        {/* GIF overlay */}
-        <Image
-          source={require('./assets/four.gif')}
-          style={styles.gifImage}
-          resizeMode="contain"
-        />
-      </View>
-    </LinearGradient>
+        colors={['#3e0000', '#7a0000']}
+        style={[styles.box, {flex: 0.4 * (height / 667)}]}>
+        <View style={styles.backgroundContainer}>
+          <Animated.Image
+            source={{
+              uri: 'https://upload.wikimedia.org/wikipedia/commons/6/6e/Wankhede_ICC_WCF.jpg',
+            }}
+            style={[
+              styles.backgroundImage,
+              {
+                width: width,
+                height: height * 0.4,
+                borderRadius: scaleSize(8),
+              },
+            ]}
+            resizeMode="cover"
+          />
+          {/* GIF overlay */}
+          <Image
+            source={require('./assets/four.gif')}
+            style={styles.gifImage}
+            resizeMode="contain"
+          />
+        </View>
+      </LinearGradient>
 
       {/* Player Stats */}
       <LinearGradient
@@ -406,100 +410,112 @@ const App = () => {
         <View style={styles.playerStats}>
           {/* Head Image */}
 
-          <Animated.Image
-            source={{
-              uri: matchData?.batsmanStriker?.image?.head,
-            }}
-            //  style={[styles.image, { bottom: "40%" }]}
-            style={[
-              {
-                width: 100,
-                height: 100,
-                position: 'absolute',
-                resizeMode: 'contain',
-                bottom: 5,
-                left: '10%',
-              },
-            ]}
-          />
+          {matchData?.batsmanStriker?.image?.head && (
+            <Animated.Image
+              source={{
+                uri: matchData?.batsmanStriker?.image?.head,
+              }}
+              //  style={[styles.image, { bottom: "40%" }]}
+              style={[
+                {
+                  width: 100,
+                  height: 100,
+                  position: 'absolute',
+                  resizeMode: 'contain',
+                  bottom: 5,
+                  left: '10%',
+                },
+              ]}
+            />
+          )}
 
           {/* Body Image (Same size as head) */}
-          <Animated.Image
-            source={{
-              uri: matchData?.batsmanStriker?.image?.body,
-            }}
-            style={[
-              {
-                width: 100,
-                height: 100,
-                position: 'absolute',
-                resizeMode: 'contain',
-                top: 30,
-                left: '10%',
-              },
-            ]}
-          />
+          {matchData?.batsmanStriker?.image?.body && (
+            <Animated.Image
+              source={{
+                uri: matchData?.batsmanStriker?.image?.body,
+              }}
+              style={[
+                {
+                  width: 100,
+                  height: 100,
+                  position: 'absolute',
+                  resizeMode: 'contain',
+                  top: 30,
+                  left: '10%',
+                },
+              ]}
+            />
+          )}
 
-          <View style={styles.textContainer}>
-            <Text style={[styles.statItem, {fontSize: scaleFont(20)}]}>
-              {strikerText}
-            </Text>
-            <Text style={[styles.statItem, {fontSize: scaleFont(20)}]}>
-              {strikeRateText}
-            </Text>
-            <Text style={[styles.statItem, {fontSize: scaleFont(20)}]}>
-              {foursSixesText}
-            </Text>
-          </View>
+          {matchData?.batsmanStriker?.image?.head && (
+            <View style={styles.textContainer}>
+              <Text style={[styles.statItem, {fontSize: scaleFont(20)}]}>
+                {strikerText}
+              </Text>
+              <Text style={[styles.statItem, {fontSize: scaleFont(20)}]}>
+                {strikeRateText}
+              </Text>
+              <Text style={[styles.statItem, {fontSize: scaleFont(20)}]}>
+                {foursSixesText}
+              </Text>
+            </View>
+          )}
         </View>
 
         {/* Non-striker */}
         <View style={styles.playerStats}>
-          <Animated.Image
-            source={{
-              uri: matchData?.batsmanNonStriker?.image?.head,
-            }}
-            //  style={[styles.image, { bottom: "40%" }]}
-            style={[
-              {
-                width: 100,
-                height: 100,
-                position: 'absolute',
-                resizeMode: 'contain',
-                bottom: 5,
-                left: '10%',
-              },
-            ]}
-          />
+          {matchData?.batsmanNonStriker?.image?.head && (
+            <Animated.Image
+              source={{
+                uri: matchData?.batsmanNonStriker?.image?.head,
+              }}
+              //  style={[styles.image, { bottom: "40%" }]}
+              style={[
+                {
+                  width: 100,
+                  height: 100,
+                  position: 'absolute',
+                  resizeMode: 'contain',
+                  bottom: 5,
+                  left: '10%',
+                },
+              ]}
+            />
+          )}
 
           {/* Body Image (Same size as head) */}
-          <Animated.Image
-            source={{
-              uri: matchData?.batsmanNonStriker?.image?.body,
-            }}
-            style={[
-              {
-                width: 100,
-                height: 100,
-                position: 'absolute',
-                resizeMode: 'contain',
-                top: 30,
-                left: '10%',
-              },
-            ]}
-          />
+          {matchData?.batsmanNonStriker?.image?.body && (
+            <Animated.Image
+              source={{
+                uri: matchData?.batsmanNonStriker?.image?.body,
+              }}
+              style={[
+                {
+                  width: 100,
+                  height: 100,
+                  position: 'absolute',
+                  resizeMode: 'contain',
+                  top: 30,
+                  left: '10%',
+                },
+              ]}
+            />
+          )}
 
-          <View style={styles.textContainer}>
-            <Text style={[styles.statItem, {fontSize: scaleFont(20)}]}>
-              {nonStrikeText}
-            </Text>
-            <Text style={[styles.statItem, {fontSize: scaleFont(20)}]}>
-              {nonstrikeRateText}
-            </Text>
-            <Text style={[styles.statItem, {fontSize: scaleFont(20)}]}>
-              {nonfoursSixesText}
-            </Text>
-          </View>
+          {matchData?.batsmanNonStriker?.image?.head && (
+            <View style={styles.textContainer}>
+              <Text style={[styles.statItem, {fontSize: scaleFont(20)}]}>
+                {nonStrikeText}
+              </Text>
+              <Text style={[styles.statItem, {fontSize: scaleFont(20)}]}>
+                {nonstrikeRateText}
+              </Text>
+              <Text style={[styles.statItem, {fontSize: scaleFont(20)}]}>
+                {nonfoursSixesText}
+              </Text>
+            </View>
+          )}
         </View>
 
         {/* Bowler */}
@@ -648,8 +664,8 @@ const styles = StyleSheet.create({
   playerImage: {
     width: 50,
     height: 50,
-    borderRadius: 25, 
-    marginRight: 10, 
+    borderRadius: 25,
+    marginRight: 10,
   },
   textContainer: {
     flex: 1,
@@ -668,7 +684,7 @@ const styles = StyleSheet.create({
   over: {
     color: 'yellow',
     fontFamily: 'rajhadhanibold',
-  
+
     textShadowColor: 'rgba(0, 0, 0, 0.75)',
     textShadowOffset: {width: 2, height: 2},
     textShadowRadius: 3,
