@@ -376,5 +376,179 @@
     "team": "NZ",
     "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Mark_Chapman.png",
     "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/NZ.png"
+  },
+  {
+    "name": "Rohit Sharma",
+    "team": "IND",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Rohit_Sharma.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/IND.png"
+  },
+  {
+    "name": "Shubman Gill",
+    "team": "IND",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Shubman_Gill.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/IND.png"
+  },
+  {
+    "name": "Shreyas Iyer",
+    "team": "IND",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Shreyas_Iyer.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/IND.png"
+  },
+  {
+    "name": "KL Rahul",
+    "team": "IND",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/KL_Rahul.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/IND.png"
+  },
+  {
+    "name": "Hardik Pandya",
+    "team": "IND",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Hardik_Pandya.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/IND.png"
+  },
+  {
+    "name": "Axar Patel",
+    "team": "IND",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Axar_Patel.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/IND.png"
+  },
+  {
+    "name": "Ravindra Jadeja",
+    "team": "IND",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Ravindra_Jadeja.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/IND.png"
+  },
+  {
+    "name": "Harshit Rana",
+    "team": "IND",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Harshit_Rana.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/IND.png"
+  },
+  {
+    "name": "Kuldeep Yadav",
+    "team": "IND",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Kuldeep_Yadav.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/IND.png"
+  },
+  {
+    "name": "Mohammed Shami",
+    "team": "IND",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Mohammed_Shami.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/IND.png"
+  },
+  {
+    "name": "Varun Chakravarthy",
+    "team": "IND",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Varun_Chakravarthy.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/IND.png"
+  },
+  {
+    "name": "Arshdeep Singh",
+    "team": "IND",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Arshdeep_Singh.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/IND.png"
+  },
+  {
+    "name": "Rishabh Pant",
+    "team": "IND",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Rishabh_Pant.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/IND.png"
+  },
+  {
+    "name": "Washington Sundar",
+    "team": "IND",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Washington_Sundar.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/IND.png"
+  },
+  {
+    "name": "Soumya Sarkar",
+    "team": "BAN",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Soumya_Sarkar.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/BAN.png"
+  },
+  {
+    "name": "Tanzid Hasan",
+    "team": "BAN",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Tanzid_Hasan.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/BAN.png"
+  },
+  {
+    "name": "Najmul Hossain Shanto",
+    "team": "BAN",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Najmul_Hossain_Shanto.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/BAN.png"
+  },
+  {
+    "name": "Jaker Ali",
+    "team": "BAN",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Jaker_Ali.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/BAN.png"
+  },
+  {
+    "name": "Mushfiqur Rahim",
+    "team": "BAN",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Mushfiqur_Rahim.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/BAN.png"
+  },
+  {
+    "name": "Mahmudullah",
+    "team": "BAN",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Mahmudullah.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/BAN.png"
+  },
+  {
+    "name": "Mehidy Hasan Miraz",
+    "team": "BAN",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Mehidy_Hasan_Miraz.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/BAN.png"
+  },
+  {
+    "name": "Taskin Ahmed",
+    "team": "BAN",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Taskin_Ahmed.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/BAN.png"
+  },
+  {
+    "name": "Tanzim Hasan Sakib",
+    "team": "BAN",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Tanzim_Hasan_Sakib.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/BAN.png"
+  },
+  {
+    "name": "Nahid Rana",
+    "team": "BAN",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Nahid_Rana.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/BAN.png"
+  },
+  {
+    "name": "Mustafizur Rahman",
+    "team": "BAN",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Mustafizur_Rahman.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/BAN.png"
+  },
+  {
+    "name": "Towhid Hridoy",
+    "team": "BAN",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Towhid_Hridoy.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/BAN.png"
+  },
+  {
+    "name": "Rishad Hossain",
+    "team": "BAN",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Rishad_Hossain.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/BAN.png"
+  },
+  {
+    "name": "Parvez Hossain Emon",
+    "team": "BAN",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Parvez_Hossain_Emon.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/BAN.png"
+  },
+  {
+    "name": "Nasum Ahmed",
+    "team": "BAN",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Nasum_Ahmed.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/BAN.png"
   }
 ]

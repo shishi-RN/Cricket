@@ -405,7 +405,7 @@ const App = () => {
       {/* Player Stats */}
       <LinearGradient
         colors={['#2a0a3d', '#531d8a']}
-        style={[styles.box, {flex: 0.2 * (height / 667)}]}>
+        style={[styles.box, {flex: 0.18 * (height / 667)}]}>
         {/* Striker */}
         <View style={styles.playerStats}>
           {/* Head Image */}
@@ -570,9 +570,9 @@ const App = () => {
       {/* Bottom Bar */}
       <LinearGradient
         colors={['#434343', '#000000']}
-        style={[styles.box, {flex: 0.2 * (height / 667)}]}>
+        style={[styles.box, {flex: 0.14 * (height / 667)}]}>
         <View style={styles.bottomBar}>
-          <Text style={[styles.bottomText, {fontSize: scaleFont(24)}]}>
+          <Text style={[styles.bottomText, {fontSize: scaleFont(16)}]}>
             {`${tossText} \n LW: ${matchData?.lastWicket ?? '0'} \n ${
               matchData?.status
             }`}
