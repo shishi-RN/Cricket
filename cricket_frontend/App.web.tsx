@@ -554,14 +554,16 @@ const App = () => {
             ]}
           />
 
-          <View style={styles.textContainer}>
-            <Text style={[styles.statItem, {fontSize: scaleFont(20)}]}>
-              {bowler?.bowlName}
-            </Text>
-            <Text style={[styles.statItem, {fontSize: scaleFont(20)}]}>
-              {bowlerRate}
-            </Text>
-          </View>
+          {matchData?.bowler?.image?.head && (
+            <View style={styles.textContainer}>
+              <Text style={[styles.statItem, {fontSize: scaleFont(20)}]}>
+                {bowler?.bowlName}
+              </Text>
+              <Text style={[styles.statItem, {fontSize: scaleFont(20)}]}>
+                {bowlerRate}
+              </Text>
+            </View>
+          )}
         </View>
       </LinearGradient>
 
