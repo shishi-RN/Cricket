@@ -7,6 +7,13 @@ const path = require("path");
 const app = express();
 app.use(cors());
 app.use("/voices", express.static(path.join(__dirname, "public", "voices")));
+app.use(express.static(path.join(__dirname, "public")));
+
+// Serve the HTML file on the root route
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
 const images = [
   {
     name: "IND",
