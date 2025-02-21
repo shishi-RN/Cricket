@@ -373,34 +373,8 @@ const App = () => {
           </View>
         </Text>
       </LinearGradient>
-
+      <View style={[styles.box, {flex: 0.4 * (height / 667)}]}></View>
       {/* Main Content Area */}
-      <LinearGradient
-        colors={['#3e0000', '#7a0000']}
-        style={[styles.box, {flex: 0.4 * (height / 667)}]}>
-        <View style={styles.backgroundContainer}>
-          <Animated.Image
-            source={{
-              uri: 'https://upload.wikimedia.org/wikipedia/commons/6/6e/Wankhede_ICC_WCF.jpg',
-            }}
-            style={[
-              styles.backgroundImage,
-              {
-                width: width,
-                height: height * 0.4,
-                borderRadius: scaleSize(8),
-              },
-            ]}
-            resizeMode="cover"
-          />
-          {/* GIF overlay */}
-          <Image
-            source={require('./assets/four.gif')}
-            style={styles.gifImage}
-            resizeMode="contain"
-          />
-        </View>
-      </LinearGradient>
 
       {/* Player Stats */}
       <LinearGradient
@@ -422,7 +396,7 @@ const App = () => {
                   height: 100,
                   position: 'absolute',
                   resizeMode: 'contain',
-                  bottom: 5,
+
                   left: '10%',
                 },
               ]}
@@ -531,7 +505,7 @@ const App = () => {
                 height: 100,
                 position: 'absolute',
                 resizeMode: 'contain',
-                bottom: 5,
+
                 left: '10%',
               },
             ]}
@@ -559,7 +533,7 @@ const App = () => {
               <Text style={[styles.statItem, {fontSize: scaleFont(20)}]}>
                 {bowler?.bowlName}
               </Text>
-              <Text style={[styles.statItem, {fontSize: scaleFont(20)}]}>
+              <Text style={[styles.statItem, {fontSize: scaleFont(16)}]}>
                 {bowlerRate}
               </Text>
             </View>
@@ -572,8 +546,8 @@ const App = () => {
         colors={['#434343', '#000000']}
         style={[styles.box, {flex: 0.14 * (height / 667)}]}>
         <View style={styles.bottomBar}>
-          <Text style={[styles.bottomText, {fontSize: scaleFont(16)}]}>
-            {`${tossText} \n LW: ${matchData?.lastWicket ?? '0'} \n ${
+          <Text style={[styles.bottomText, {fontSize: scaleFont(20)}]}>
+            {`${tossText}   |   LW: ${matchData?.lastWicket ?? '0'} \n ${
               matchData?.status
             }`}
           </Text>

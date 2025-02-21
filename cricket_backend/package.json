@@ -14,6 +14,7 @@
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "fuse.js": "^7.1.0",
-    "play-sound": "^1.1.6"
+    "play-sound": "^1.1.6",
+    "socket.io": "^4.8.1"
   }
 }

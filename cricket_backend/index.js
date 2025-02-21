@@ -226,9 +226,7 @@ app.get("/match-data", async (req, res) => {
     );
 
     const { matchHeader, commentaryList, miniscore } = response.data;
-    const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-    await delay(100000); // 60 seconds de
     // Retrieve player images using fuzzy matching
     let batsmanNonStrikerImage;
     if (miniscore?.batsmanNonStriker?.batName) {
