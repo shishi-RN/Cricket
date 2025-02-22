@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -13,6 +14,7 @@
       margin: 0;
       background-color: #e5e5e5;
     }
+
     canvas {
       background-color: transparent;
       border: 2px solid #000;
@@ -20,25 +22,32 @@
     }
   </style>
 </head>
+
 <body>
-  <canvas id="cricketGround" width="700" height="1000"></canvas>
-  
+  <canvas id="cricketGround" width="500" height="500"></canvas>
+
   <script src="/socket.io/socket.io.js"></script>
   <script>
-    // Canvas setup
+    // Audio setup
+    const bowlSound = new Audio("https://raw.githubusercontent.com/shishi-RN/Cricket/main/cricket_backend/public/ball.mp3");
+    const batSound = new Audio("https://raw.githubusercontent.com/shishi-RN/Cricket/main/cricket_backend/public/bat.mp3");
+
+    // Function to play bowl sound then bat sound in sequence
+   
+
     const canvas = document.getElementById("cricketGround");
     const ctx = canvas.getContext("2d");
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
     const radius = 380;
-    
+
     const socket = io();
     let fieldingPositions = [];
-    
+
     // Player configurations
     const players = {
-      bowler: { 
-        x: centerX, 
+      bowler: {
+        x: centerX,
         y: centerY + 200,
         targetY: centerY + 100,
         width: 80,
@@ -48,7 +57,7 @@
       batsman: {
         x: centerX,
         y: centerY - 100,
-        batAngle: -Math.PI / 4,
+        batAngle: 90,
         width: 80,
         height: 120,
         img: null
@@ -61,35 +70,30 @@
         target: null
       }
     };
-    
-    // Create Audio objects for bowling and batting sounds
-    const bowlSound = new Audio("bowling-sound.mp3");
-    const batSound = new Audio("batting-sound.mp3");
-    let batSoundPlayed = false; // flag to ensure the batting sound plays only once per swing
-    
+
     // Socket event listeners
     socket.on('animate', async (data) => {
       await loadImages(data.bowlerImg, data.batterImg);
       const targetPosition = fieldingPositions.find(
         pos => pos.name === data.fieldingPosition
       );
-      
+
       if (targetPosition) {
         players.ball.target = updatePositionForShot(targetPosition, data.shotType);
         startAnimationSequence();
       }
     });
-    
+
     socket.on('fielding-positions', (positions) => {
       fieldingPositions = positions;
     });
-    
+
     // Image loading helper
     async function loadImages(bowlerUrl, batterUrl) {
       players.bowler.img = await loadImage(bowlerUrl);
       players.batsman.img = await loadImage(batterUrl);
     }
-    
+
     function loadImage(url) {
       return new Promise((resolve, reject) => {
         const img = new Image();
@@ -98,9 +102,9 @@
         img.src = url;
       });
     }
-    
+
     function updatePositionForShot(position, shotType) {
-      switch(shotType.toLowerCase()) {
+      switch (shotType.toLowerCase()) {
         case 'dot':
           return { ...position, distance: position.distance + 10 }; // Very short distance
         case 'single':
@@ -116,7 +120,7 @@
           return position;
       }
     }
-    
+
     function drawGround() {
       ctx.beginPath();
       ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
@@ -125,25 +129,21 @@
       ctx.strokeStyle = "#000";
       ctx.lineWidth = 2;
       ctx.stroke();
-    
+
       ctx.fillStyle = "#d2b48c";
       ctx.fillRect(centerX - 15, centerY - 100, 30, 200);
     }
-    
     function drawBat(x, y, angle) {
       ctx.save();
       ctx.translate(x, y);
-      ctx.rotate(angle + Math.PI / 2); // Keep rotation offset if needed
+      ctx.rotate(angle + Math.PI / 2);
       ctx.fillStyle = "#654321";
-      // Body: Extends UPWARD from the handle (now at the pivot point)
-      ctx.fillRect(-8, -120, 16, 120); // Starts at y=-120 (top) and ends at y=0 (handle)
+      ctx.fillRect(-8, -60, 16, 60); // Reduced height from 120 to 60
       ctx.fillStyle = "#8B4513";
-      // Handle: Positioned at the rotation pivot (base of the bat)
-      ctx.fillRect(-5, 0, 10, 20); // Starts at y=0 (pivot) and extends downward
+      ctx.fillRect(-5, 0, 10, 20);
       ctx.strokeStyle = "#A0522D";
       ctx.lineWidth = 2;
-      // Stripes: Adjusted to align with the body's new direction
-      for (let i = -120; i < 0; i += 10) {
+      for (let i = -60; i < 0; i += 10) { // Adjusted range from -120 to -60
         ctx.beginPath();
         ctx.moveTo(-8, i);
         ctx.lineTo(8, i);
@@ -151,7 +151,7 @@
       }
       ctx.restore();
     }
-    
+
     function drawPlayers() {
       if (players.bowler.img) {
         ctx.drawImage(
@@ -162,7 +162,6 @@
           players.bowler.height
         );
       }
-    
       if (players.batsman.img) {
         ctx.drawImage(
           players.batsman.img,
@@ -172,9 +171,7 @@
           players.batsman.height
         );
       }
-    
       drawBat(players.batsman.x, players.batsman.y, players.batsman.batAngle);
-    
       if (players.ball.visible) {
         ctx.beginPath();
         ctx.arc(players.ball.x, players.ball.y, players.ball.radius, 0, Math.PI * 2);
@@ -182,17 +179,22 @@
         ctx.fill();
       }
     }
-    
+
+    // Start the animation sequence after a 3-second delay.
     function startAnimationSequence() {
-      // Play the bowling sound at the start of the bowling animation
-      bowlSound.play();
-      animateBowler();
+      setTimeout(() => {
+   
+        animateBowler();  // Start bowler's movement after delay
+      }, 4000);
+
     }
-    
-    function animateBowler() {
+
+    async function animateBowler  () {
+      bowlSound.currentTime = 0;
+     await bowlSound.play().catch((error) => console.error("Bowl sound error:", error));
       const dy = players.bowler.targetY - players.bowler.y;
       players.bowler.y += dy * 0.1;
-      
+
       if (Math.abs(dy) > 2) {
         requestAnimationFrame(animateBowler);
       } else {
@@ -201,27 +203,30 @@
       }
       drawFrame();
     }
-    
+
     function animateSwing() {
       let swingProgress = 0;
+      let batSoundPlayed = false; // ensure the sound plays only once
       const startAngle = -Math.PI / 4;
       const endAngle = Math.PI / 4;
-    
+
       function updateSwing() {
         if (swingProgress < 1) {
           swingProgress += 0.05;
           players.batsman.batAngle = startAngle + (endAngle - startAngle) * swingProgress;
-          
-          // Trigger batting sound once when swing reaches a threshold
+
+          // Update ball position during the swing
           if (swingProgress > 0.3) {
-            if (!batSoundPlayed) {
-              batSound.play();
-              batSoundPlayed = true;
-            }
             players.ball.x = players.batsman.x + Math.cos(players.batsman.batAngle) * 60;
             players.ball.y = players.batsman.y + Math.sin(players.batsman.batAngle) * 60;
+            // Trigger bat sound only once when the ball "touches" the bat
+            if (!batSoundPlayed) {
+          batSound.currentTime = 0;
+          batSound.play().catch((error) => console.error("Bat sound error:", error));
+          batSoundPlayed = true;
+        }
           }
-          
+
           drawFrame();
           requestAnimationFrame(updateSwing);
         } else {
@@ -230,17 +235,36 @@
       }
       updateSwing();
     }
-    
+
     function animateBallToField() {
-      const targetX = centerX + Math.cos(players.ball.target.angle) * players.ball.target.distance;
-      const targetY = centerY + Math.sin(players.ball.target.angle) * players.ball.target.distance;
-    
+      let targetX, targetY;
+
+      // Check for 90° position (right red line)
+      if (Math.abs(players.ball.target.angle - (Math.PI / 2)) < 0.01) {
+        // Compute the horizontal delta from the center where the red line ends
+        const horizontalDelta = Math.sqrt(Math.pow(radius, 2) - Math.pow(players.batsman.y - centerY, 2));
+        targetX = centerX + horizontalDelta;
+        targetY = players.batsman.y;
+      }
+      // Check for 270° position (left red line)
+      else if (Math.abs(players.ball.target.angle - (3 * Math.PI / 2)) < 0.01) {
+        const horizontalDelta = Math.sqrt(Math.pow(radius, 2) - Math.pow(players.batsman.y - centerY, 2));
+        targetX = centerX - horizontalDelta;
+        targetY = players.batsman.y;
+      }
+      // For all other angles, calculate the target dynamically
+      else {
+        const correctedAngle = players.ball.target.angle - Math.PI / 2;
+        targetX = centerX + Math.cos(correctedAngle) * players.ball.target.distance;
+        targetY = centerY + Math.sin(correctedAngle) * players.ball.target.distance;
+      }
+
+      // Smooth animation towards the computed target
       const dx = (targetX - players.ball.x) * 0.1;
       const dy = (targetY - players.ball.y) * 0.1;
-    
       players.ball.x += dx;
       players.ball.y += dy;
-    
+
       if (Math.abs(dx) > 0.5 || Math.abs(dy) > 0.5) {
         requestAnimationFrame(animateBallToField);
       } else {
@@ -248,25 +272,272 @@
       }
       drawFrame();
     }
-    
+
+
     function resetAnimation() {
       players.bowler.y = centerY + 300;
       players.ball.visible = false;
       players.ball.x = centerX;
       players.ball.y = centerY + 300;
-      players.batsman.batAngle = -Math.PI / 4;
-      batSoundPlayed = false; // Reset flag for the next swing
+      players.batsman.batAngle = 90;
       drawFrame();
     }
-    
+
+   
+
+
     function drawFrame() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       drawGround();
       drawPlayers();
     }
-    
+
     // Draw the initial frame
     drawFrame();
   </script>
 </body>
+
 </html>
+
+
+
+
+
+
+@import url("https://fonts.googleapis.com/css?family=Changa One");
+@import url("https://fonts.googleapis.com/css?family=Imprima");
+@import url("https://fonts.googleapis.com/css?family=Rajdhani"); 
+/* Background colors*/
+body {
+  overflow: hidden;
+  background-color: rgba(0,0,0,0);
+}
+/* Transparent background. */
+yt-live-chat-renderer {
+  background-color: transparent !important;
+}
+yt-live-chat-text-message-renderer,
+yt-live-chat-text-message-renderer[is-highlighted] {
+  background-color: transparent !important;
+}
+
+yt-live-chat-text-message-renderer[author-type="owner"],
+yt-live-chat-text-message-renderer[author-type="owner"][is-highlighted] {
+  background-color: transparent !important;
+}
+
+yt-live-chat-text-message-renderer[author-type="moderator"],
+yt-live-chat-text-message-renderer[author-type="moderator"][is-highlighted] {
+  background-color: transparent !important;
+}
+
+yt-live-chat-text-message-renderer[author-type="member"],
+yt-live-chat-text-message-renderer[author-type="member"][is-highlighted] {
+  background-color: transparent !important;
+}
+
+
+yt-live-chat-author-chip #author-name {
+  background-color: transparent !important;
+}
+/* Outlines */
+yt-live-chat-renderer * {
+  text-shadow: -2px -2px #000000,-2px -1px #000000,-2px 0px #000000,-2px 1px #000000,-2px 2px #000000,-1px -2px #000000,-1px -1px #000000,-1px 0px #000000,-1px 1px #000000,-1px 2px #000000,0px -2px #000000,0px -1px #000000,0px 0px #000000,0px 1px #000000,0px 2px #000000,1px -2px #000000,1px -1px #000000,1px 0px #000000,1px 1px #000000,1px 2px #000000,2px -2px #000000,2px -1px #000000,2px 0px #000000,2px 1px #000000,2px 2px #000000;
+  font-family: "Rajdhani";
+  font-size: 18px !important;
+  line-height: normal !important;
+}
+
+yt-live-chat-text-message-renderer #content,
+yt-live-chat-legacy-paid-message-renderer #content {
+  overflow: initial !important;
+}
+
+/* Hide scrollbar. */
+yt-live-chat-item-list-renderer #items{
+  overflow: hidden !important;
+}
+
+yt-live-chat-item-list-renderer #item-scroller{
+  overflow: hidden !important;
+}
+
+/* Hide header and input. */
+yt-live-chat-header-renderer,
+yt-live-chat-message-input-renderer {
+  display: none !important;
+}
+
+/* Reduce side padding. */
+yt-live-chat-text-message-renderer,
+yt-live-chat-legacy-paid-message-renderer {
+    padding-left: 4px !important;
+  padding-right: 4px !important;
+}
+
+yt-live-chat-paid-message-renderer #header {
+    padding-left: 4px !important;
+  padding-right: 4px !important;
+}
+
+/* Avatars. */
+yt-live-chat-text-message-renderer #author-photo,
+yt-live-chat-paid-message-renderer #author-photo,
+yt-live-chat-legacy-paid-message-renderer #author-photo {
+  
+  width: 24px !important;
+  height: 24px !important;
+  border-radius: 24px !important;
+  margin-right: 6px !important;
+}
+
+/* Hide badges. */
+yt-live-chat-text-message-renderer #author-badges {
+  display: none !important;
+  vertical-align: text-top !important;
+}
+
+/* Timestamps. */
+yt-live-chat-text-message-renderer #timestamp {
+  
+  color: #999999 !important;
+  font-family: "Rajdhani";
+  font-size: 16px !important;
+  line-height: 16px !important;
+}
+
+/* Badges. */
+yt-live-chat-text-message-renderer #author-name[type="owner"],
+yt-live-chat-text-message-renderer #author-name.owner,
+yt-live-chat-text-message-renderer yt-live-chat-author-badge-renderer[type="owner"] {
+  color: #ffd600 !important;
+}
+
+yt-live-chat-text-message-renderer #author-name[type="moderator"],
+yt-live-chat-text-message-renderer #author-name.moderator,
+yt-live-chat-text-message-renderer yt-live-chat-author-badge-renderer[type="moderator"] {
+  color: #5e84f1 !important;
+}
+
+yt-live-chat-text-message-renderer #author-name[type="member"],
+yt-live-chat-text-message-renderer #author-name.member,
+yt-live-chat-text-message-renderer yt-live-chat-author-badge-renderer[type="member"] {
+  color: #0f9d58 !important;
+}
+
+/* Channel names. */
+yt-live-chat-text-message-renderer #author-name {
+  color: #cccccc !important;
+  font-family: "Changa One";
+  font-size: 20px !important;
+  line-height: 20px !important;
+}
+
+yt-live-chat-text-message-renderer #author-name::after {
+  content: ":";
+  margin-left: 2px;
+}
+
+/* Messages. */
+yt-live-chat-text-message-renderer #message,
+yt-live-chat-text-message-renderer #message * {
+  color: #ffffff !important;
+  font-family: "Rajdhani";
+  font-size: 18px !important;
+  line-height: normal !important;
+  letter-spacing: normal !important;
+}
+
+
+/* SuperChat/Fan Funding Messages. */
+yt-live-chat-paid-message-renderer #author-name,
+yt-live-chat-paid-message-renderer #author-name *,
+yt-live-chat-legacy-paid-message-renderer #event-text,
+yt-live-chat-legacy-paid-message-renderer #event-text * {
+  color: #ffffff !important;
+  font-family: "Changa One";
+  font-size: 20px !important;
+  line-height: 20px !important;
+}
+
+yt-live-chat-paid-message-renderer #purchase-amount,
+yt-live-chat-paid-message-renderer #purchase-amount *,
+yt-live-chat-legacy-paid-message-renderer #detail-text,
+yt-live-chat-legacy-paid-message-renderer #detail-text * {
+  color: #ffffff !important;
+  font-family: "Rajdhani";
+  font-size: 18px !important;
+  line-height: 18px !important;
+}
+
+yt-live-chat-paid-message-renderer #content,
+yt-live-chat-paid-message-renderer #content * {
+  color: #ffffff !important;
+  font-family: "Rajdhani";
+  font-size: 18px !important;
+  line-height: 18px !important;
+}
+
+yt-live-chat-moderation-message-renderer {
+  display: none !important;
+}
+
+yt-live-chat-paid-message-renderer {
+  margin: 4px 0 !important;
+}
+
+yt-live-chat-legacy-paid-message-renderer {
+  background-color: #0f9d58 !important;
+  margin: 4px 0 !important;
+}
+
+yt-live-chat-text-message-renderer a,
+yt-live-chat-legacy-paid-message-renderer a {
+  text-decoration: none !important;
+}
+
+yt-live-chat-text-message-renderer[is-deleted],
+yt-live-chat-legacy-paid-message-renderer[is-deleted] {
+  display: none !important;
+}
+
+yt-live-chat-ticker-renderer {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+yt-live-chat-ticker-renderer {
+  display: none !important;
+}
+
+
+yt-live-chat-ticker-paid-message-item-renderer,
+yt-live-chat-ticker-paid-message-item-renderer *,
+yt-live-chat-ticker-sponsor-item-renderer,
+yt-live-chat-ticker-sponsor-item-renderer * {
+  color: #ffffff !important;
+  font-family: "Rajdhani";
+}
+
+yt-live-chat-mode-change-message-renderer, 
+yt-live-chat-viewer-engagement-message-renderer, 
+yt-live-chat-restricted-participation-renderer {
+  display: none !important;
+}
+
+yt-live-chat-banner-manager {
+  display: none !important;
+}
+
+
+yt-live-chat-action-panel-renderer, 
+yt-live-chat-renderer #action-panel {
+  display: none !important;
+}
+yt-reaction-control-panel-overlay,
+yt-reaction-control-panel-overlay-view-model,
+yt-reaction-control-panel-view-model {
+  display: none !important;
+}
+yt-live-chat-viewer-engagement-message-renderer {
+  display: none !important;
+}
