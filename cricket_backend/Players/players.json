@@ -736,5 +736,11 @@
     "team": "ENG",
     "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Gus_Atkinson.png",
     "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/ENG.png"
+  },
+  {
+    "name": "Imam-ul-Haq",
+    "team": "PAK",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Imam-ul-Haq.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/PAK.png"
   }
 ]

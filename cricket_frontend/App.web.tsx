@@ -207,7 +207,11 @@ const App = () => {
     if (event.includes('HUNDRED')) return 'HUNDRED';
     return event;
   };
-
+  function normalizeOvers(overs: number): number {
+    let whole = Math.floor(overs);
+    let fraction = overs - whole;
+    return fraction >= 0.6 ? whole + 1 : overs;
+  }
   const eventValue = getEventValue(matchData?.event);
 
   return (
@@ -275,7 +279,7 @@ const App = () => {
                 styles.over,
                 {fontSize: scaleFont(32), opacity: fadeAnim},
               ]}>
-              Over: {firstInnings?.overs ?? 0.0}
+              Over: {normalizeOvers(firstInnings?.overs) ?? 0.0}
             </Animated.Text>
           </View>
 
@@ -331,7 +335,7 @@ const App = () => {
                 styles.over,
                 {fontSize: scaleFont(32), opacity: fadeAnim},
               ]}>
-              Over: {secondInnings?.overs ?? 0.0}
+              Over: {normalizeOvers(secondInnings?.overs) ?? 0.0}
             </Animated.Text>
           </View>
 
@@ -397,7 +401,7 @@ const App = () => {
                   position: 'absolute',
                   resizeMode: 'contain',
 
-                  left: '10%',
+                  left: '5%',
                 },
               ]}
             />
@@ -416,7 +420,7 @@ const App = () => {
                   position: 'absolute',
                   resizeMode: 'contain',
                   top: 30,
-                  left: '10%',
+                  left: '5%',
                 },
               ]}
             />
@@ -452,7 +456,7 @@ const App = () => {
                   position: 'absolute',
                   resizeMode: 'contain',
                   bottom: 5,
-                  left: '10%',
+                  left: '5%',
                 },
               ]}
             />
@@ -471,7 +475,7 @@ const App = () => {
                   position: 'absolute',
                   resizeMode: 'contain',
                   top: 30,
-                  left: '10%',
+                  left: '5%',
                 },
               ]}
             />
@@ -506,7 +510,7 @@ const App = () => {
                 position: 'absolute',
                 resizeMode: 'contain',
 
-                left: '10%',
+                left: '5%',
               },
             ]}
           />
@@ -523,7 +527,7 @@ const App = () => {
                 position: 'absolute',
                 resizeMode: 'contain',
                 top: 30,
-                left: '10%',
+                left: '5%',
               },
             ]}
           />
@@ -546,7 +550,7 @@ const App = () => {
         colors={['#434343', '#000000']}
         style={[styles.box, {flex: 0.14 * (height / 667)}]}>
         <View style={styles.bottomBar}>
-          <Text style={[styles.bottomText, {fontSize: scaleFont(20)}]}>
+          <Text style={[styles.bottomText, {fontSize: scaleFont(18)}]}>
             {`${tossText}   |   LW: ${matchData?.lastWicket ?? '0'} \n ${
               matchData?.status
             }`}
@@ -646,7 +650,7 @@ const styles = StyleSheet.create({
   textContainer: {
     flex: 1,
     justifyContent: 'center',
-    left: '50%',
+    left: '40%',
   },
   overText: {
     color: 'white',

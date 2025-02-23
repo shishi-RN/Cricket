@@ -20,8 +20,9 @@ const images = [
     image: "https://upload.wikimedia.org/wikipedia/en/4/41/Flag_of_India.svg",
   },
   {
-    name:"NZ",
-    image:"https://upload.wikimedia.org/wikipedia/commons/3/3e/Flag_of_New_Zealand.svg"
+    name: "NZ",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/3/3e/Flag_of_New_Zealand.svg",
   },
   {
     name: "ENG",
@@ -29,12 +30,14 @@ const images = [
       "https://upload.wikimedia.org/wikipedia/commons/a/a5/Flag_of_the_United_Kingdom_(1-2).svg",
   },
   {
-    name:"AUS",
-    image:"https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Flag_of_Australia_%28converted%29.svg/640px-Flag_of_Australia_%28converted%29.svg.png"
+    name: "AUS",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Flag_of_Australia_%28converted%29.svg/640px-Flag_of_Australia_%28converted%29.svg.png",
   },
   {
-    name:"PAK",
-    image:"https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Flag_of_Pakistan.svg/800px-Flag_of_Pakistan.svg.png"
+    name: "PAK",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Flag_of_Pakistan.svg/800px-Flag_of_Pakistan.svg.png",
   },
   {
     name: "ZIM",
@@ -138,7 +141,7 @@ const images = [
     image:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSocgERlMQwAoEfc9oXUVBsxDU_Dzcdri2mg&s",
   },
- 
+
   {
     name: "Joe Root",
     image: "https://www.espncricinfo.com/inline/content/image/1183220.html",
@@ -192,6 +195,46 @@ const images = [
     image: "https://www.espncricinfo.com/inline/content/image/1183232.html",
   },
 ];
+
+const fieldingPositions = [
+  { id: 1, name: "slips" },
+  { id: 2, name: "fly slip" },
+  { id: 3, name: "gully" },
+  { id: 4, name: "silly point" },
+  { id: 5, name: "silly mid off" },
+  { id: 6, name: "point" },
+  { id: 7, name: "backward point" },
+  { id: 8, name: "cover" },
+  { id: 9, name: "extra cover" },
+  { id: 10, name: "mid-off" },
+  { id: 11, name: "deep backward point" },
+  { id: 12, name: "deep point" },
+  { id: 13, name: "deep cover" },
+  { id: 14, name: "deep extra cover" },
+  { id: 15, name: "long-off" },
+  { id: 16, name: "third man" },
+  { id: 17, name: "wicket keeper" },
+  { id: 18, name: "leg slip" },
+  { id: 19, name: "leg gully" },
+  { id: 20, name: "silly mid on" },
+  { id: 21, name: "short leg" },
+  { id: 22, name: "mid-on" },
+  { id: 23, name: "mid-wicket" },
+  { id: 24, name: "square leg" },
+  { id: 25, name: "backward square leg" },
+  { id: 26, name: "fine leg" },
+  { id: 27, name: "deep mid-wicket" },
+  { id: 28, name: "deep square leg" },
+  { id: 29, name: "deep fine leg" },
+  { id: 30, name: "long-on" },
+  { id: 31, name: "cow corner" },
+  { id: 32, name: "long leg" },
+  {id:33 , name:"square of the wicket"},
+  { id: 34, name: "deep mid" },
+  { id: 35, name: "deep square" },
+
+];
+
 const players = require("./Players/players.json");
 function getTeamImage(playerName) {
   const options = {
@@ -203,6 +246,19 @@ function getTeamImage(playerName) {
 
   if (result.length > 0) {
     return result[0].item.image;
+  }
+  return null; // Return null if no close match is found
+}
+function shotName(comment) {
+  const options = {
+    keys: ["name"],
+    threshold: 0.3, // Adjust this value based on desired matching sensitivity
+  };
+  const fuse = new Fuse(fieldingPositions, options);
+  const result = fuse.search(comment);
+  console.log(result);
+  if (result.length > 0) {
+    return result[0].item.name;
   }
   return null; // Return null if no close match is found
 }
@@ -226,7 +282,7 @@ let previousComment = ""; // define globally outside the route
 app.get("/match-data", async (req, res) => {
   try {
     const response = await axios.get(
-      "https://www.cricbuzz.com/api/cricket-match/commentary/112413"
+      "https://www.cricbuzz.com/api/cricket-match/commentary/112420"
     );
 
     const { matchHeader, commentaryList, miniscore } = response.data;
@@ -307,7 +363,28 @@ app.get("/match-data", async (req, res) => {
     // Generate text-to-speech audio
     let voice;
     const currentComment = cleanText(commentaryList[0].commText);
-console.log(currentComment)
+    console.log(currentComment);
+    const matchedPositions = fieldingPositions.filter((position) =>
+      currentComment.toLowerCase().includes(position.name)
+    );
+
+    const lastObject = matchedPositions.at(-1);
+    console.log(matchedPositions);
+    const shot = miniscore?.recentOvsStats;
+
+    // Mapping numbers to words
+    const numberMap = {
+      1: "single",
+      2: "double",
+      3: "triple",
+      4: "four",
+      5: "five",
+      6: "six",
+    };
+
+    // Find the last occurrence of "1" and replace it
+
+
     // Remove the repeated text (if the current comment starts with the previous comment)
     let uniqueComment = currentComment;
     if (previousComment && currentComment.startsWith(previousComment)) {
@@ -354,13 +431,30 @@ console.log(currentComment)
       recentOvsStats: miniscore?.recentOvsStats,
       voice, // Include the voice file or URL
     };
+    const matchs = shot?.match(/(\d)(?!.*\d)/);
 
+    const lastValue = matchs ? numberMap[matchs[1]] || matchs[1] : null;
+    
+    console.log(lastValue);
+   lastObject
+    if (lastObject && lastValue!== 0) {
+      const bowlerImage = getPlayerImage(miniscore?.bowlerStriker?.bowlName);
+      const batterImage = getPlayerImage(miniscore?.batsmanNonStriker?.batName);
+      
+      // Trigger amodifiedStringnimation API
+      await axios.post("http://localhost:3001/trigger-animation", {
+        fieldingPosition: lastObject?.name,
+        bowlerImg: bowlerImage?.head,
+        batterImg: batterImage?.head,
+        shotType: lastValue,
+      });
+    }
     res.send(api);
+  
   } catch (error) {
     console.log("Error fetching match data:", error);
     res.status(500).send("Error fetching match data");
   }
 });
-
 
 app.listen(3000, () => console.log("Server running on port 3000"));
