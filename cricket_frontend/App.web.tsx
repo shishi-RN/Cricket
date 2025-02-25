@@ -297,10 +297,10 @@ const App = () => {
               style={[
                 styles.teamName,
                 {
-                  fontSize:
-                    matchData?.event === 'WICKET'
-                      ? scaleFont(35)
-                      : scaleFont(55),
+                  fontSize: scaleFont(
+                    ['WICKET', 'HUNDRED'].includes(matchData?.event) ? 35 : 55,
+                  ),
+
                   justifyContent: 'center',
                   alignSelf: 'center',
                   textAlign: 'center', // Ensures the text is centered
