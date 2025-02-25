@@ -5,7 +5,7 @@ const obs = new OBSWebSocket();
 (async () => {
   try {
     // Connect to OBS WebSocket server
-    await obs.connect('ws://192.168.1.5:4455', '123456'); // Use your OBS WebSocket URL and password
+    await obs.connect('ws://207.180.228.215:4455', '123456'); // Use your OBS WebSocket URL and password
     console.log('✅ Connected to OBS!');
 
     // Get the current scene
