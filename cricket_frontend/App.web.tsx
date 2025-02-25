@@ -298,7 +298,7 @@ const App = () => {
                 styles.teamName,
                 {
                   fontSize: scaleFont(
-                    ['WICKET', 'HUNDRED'].includes(matchData?.event) ? 35 : 55,
+                    ['HUNDRED', 'WICKET'].includes(matchData?.event?.split(',')[0]) ? 35 : 55
                   ),
 
                   justifyContent: 'center',
