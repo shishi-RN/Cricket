@@ -742,5 +742,95 @@
     "team": "PAK",
     "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Imam-ul-Haq.png",
     "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/PAK.png"
+  },
+  {
+    "name": "Ryan Rickelton",
+    "team": "RSA",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Ryan_Rickelton.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/RSA.png"
+  },
+  {
+    "name": "Tony de Zorzi",
+    "team": "RSA",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Tony_de_Zorzi.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/RSA.png"
+  },
+  {
+    "name": "Temba Bavuma",
+    "team": "RSA",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Temba_Bavuma.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/RSA.png"
+  },
+  {
+    "name": "Rassie van der Dussen",
+    "team": "RSA",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Rassie_van_der_Dussen.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/RSA.png"
+  },
+  {
+    "name": "Aiden Markram",
+    "team": "RSA",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Aiden_Markram.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/RSA.png"
+  },
+  {
+    "name": "David Miller",
+    "team": "RSA",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/David_Miller.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/RSA.png"
+  },
+  {
+    "name": "Marco Jansen",
+    "team": "RSA",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Marco_Jansen.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/RSA.png"
+  },
+  {
+    "name": "Wiaan Mulder",
+    "team": "RSA",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Wiaan_Mulder.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/RSA.png"
+  },
+  {
+    "name": "Keshav Maharaj",
+    "team": "RSA",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Keshav_Maharaj.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/RSA.png"
+  },
+  {
+    "name": "Kagiso Rabada",
+    "team": "RSA",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Kagiso_Rabada.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/RSA.png"
+  },
+  {
+    "name": "Lungi Ngidi",
+    "team": "RSA",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Lungi_Ngidi.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/RSA.png"
+  },
+  {
+    "name": "Tabraiz Shamsi",
+    "team": "RSA",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Tabraiz_Shamsi.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/RSA.png"
+  },
+  {
+    "name": "Heinrich Klaasen",
+    "team": "RSA",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Heinrich_Klaasen.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/RSA.png"
+  },
+  {
+    "name": "Tristan Stubbs",
+    "team": "RSA",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Tristan_Stubbs.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/RSA.png"
+  },
+  {
+    "name": "Corbin Bosch",
+    "team": "RSA",
+    "head": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/Corbin_Bosch.png",
+    "body": "https://raw.githubusercontent.com/shishi-RN/Cricket/refs/heads/main/cricket_backend/Players/RSA.png"
   }
 ]

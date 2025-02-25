@@ -229,10 +229,9 @@ const fieldingPositions = [
   { id: 30, name: "long-on" },
   { id: 31, name: "cow corner" },
   { id: 32, name: "long leg" },
-  {id:33 , name:"square of the wicket"},
+  { id: 33, name: "square of the wicket" },
   { id: 34, name: "deep mid" },
   { id: 35, name: "deep square" },
-
 ];
 
 const players = require("./Players/players.json");
@@ -384,7 +383,6 @@ app.get("/match-data", async (req, res) => {
 
     // Find the last occurrence of "1" and replace it
 
-
     // Remove the repeated text (if the current comment starts with the previous comment)
     let uniqueComment = currentComment;
     if (previousComment && currentComment.startsWith(previousComment)) {
@@ -434,13 +432,16 @@ app.get("/match-data", async (req, res) => {
     const matchs = shot?.match(/(\d)(?!.*\d)/);
 
     const lastValue = matchs ? numberMap[matchs[1]] || matchs[1] : null;
-    
+
     console.log(lastValue);
-   lastObject
-    if (lastObject && lastValue!== 0) {
+    lastObject;
+    if (lastObject && lastValue !== "0") {
       const bowlerImage = getPlayerImage(miniscore?.bowlerStriker?.bowlName);
-      const batterImage = getPlayerImage(miniscore?.batsmanNonStriker?.batName);
-      
+      const batterImage =
+        lastValue == "1"
+          ? getPlayerImage(miniscore?.batsmanNonStriker?.batName)
+          : getPlayerImage(miniscore?.batsmanStriker?.batName);
+
       // Trigger amodifiedStringnimation API
       await axios.post("http://localhost:3001/trigger-animation", {
         fieldingPosition: lastObject?.name,
@@ -450,7 +451,6 @@ app.get("/match-data", async (req, res) => {
       });
     }
     res.send(api);
-  
   } catch (error) {
     console.log("Error fetching match data:", error);
     res.status(500).send("Error fetching match data");
