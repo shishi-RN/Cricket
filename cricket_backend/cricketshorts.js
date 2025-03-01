@@ -1,4 +1,4 @@
-const ytdl = require('ytdl-core');
+const youtubedl = require('youtube-dl-exec');
 const ffmpeg = require('fluent-ffmpeg');
 const fs = require('fs');
 const whisperFunction = require('whisper-node');
@@ -6,21 +6,22 @@ const path = require('path');
 
 async function processVideo(videoUrl) {
   try {
-    // 1. Download the YouTube video
-    console.log('Downloading video...');
-    const videoInfo = await ytdl.getInfo(videoUrl);
-    const videoStream = ytdl(videoUrl, { quality: 'highestaudio' });
-    const videoPath = 'temp_video.mp4';
+    // 1. Fetch video info using youtube-dl-exec (to get duration, etc.)
+    console.log('Fetching video information...');
+    const videoInfo = await youtubedl(videoUrl, { dumpJson: true });
+    console.log('Video information fetched.');
 
-    await new Promise((resolve, reject) => {
-      videoStream.pipe(fs.createWriteStream(videoPath))
-        .on('finish', resolve)
-        .on('error', reject);
+    // 2. Download the video using youtube-dl-exec
+    console.log('Downloading video...');
+    const videoPath = 'temp_video.mp4';
+    await youtubedl(videoUrl, {
+      output: videoPath,
+      format: 'mp4'
     });
     console.log('Video downloaded.');
 
-    // Get total video duration (in seconds)
-    const totalDuration = Number(videoInfo.videoDetails.lengthSeconds);
+    // Get total video duration (in seconds) from the info (field "duration")
+    const totalDuration = Number(videoInfo.duration);
     const numParts = 5;
     const segmentDuration = totalDuration / numParts;
 
@@ -36,22 +37,21 @@ async function processVideo(videoUrl) {
       const videoSegmentPath = `temp_video_part_${i + 1}.mp4`;
       console.log(`Processing segment ${i + 1}: start ${start.toFixed(2)} sec, duration ${currentDuration.toFixed(2)} sec`);
 
-      // 2. Split the video into segments
+      // 3. Split the video into a segment using ffmpeg
       await splitVideoSegment(videoPath, start, currentDuration, videoSegmentPath);
 
-      // 3. Convert the video segment to audio
+      // 4. Convert the video segment to audio (WAV)
       const audioPath = `audio_part_${i + 1}.wav`;
       await convertToAudio(videoSegmentPath, audioPath);
 
-      // 4. Transcribe the audio segment using Whisper
+      // 5. Transcribe the audio segment using Whisper
       const transcript = await whisperFunction.whisper(
         audioPath,
         { modelPath },
         { language: 'auto', word_timestamps: true }
       );
 
-      // 5. Save the transcript (plain text) for this segment.
-      // Here we combine all transcript segments into one text.
+      // Combine transcript segments into one text
       const transcriptText = transcript.segments
         .map(segment => segment.text.trim())
         .join(' ');
