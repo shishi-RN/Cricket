@@ -454,6 +454,7 @@ app.get("/match-data", async (req, res) => {
         shotType: lastValue,
       });
     }
+    await new Promise(resolve => setTimeout(resolve, 80000));
     res.send(api);
   } catch (error) {
     console.log("Error fetching match data:", error);
