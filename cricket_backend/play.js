@@ -66,28 +66,24 @@ async function textToSpeech(text) {
               await obs.connect("ws://207.180.228.215:4455", "123456");
               console.log("✅ Connected to OBS!");
 
-              // Mute Browser 6
               await obs.call("SetInputMute", {
                 inputName: "Browser 6",
-                mute: true,
+                inputMuted: true, // <-- Correct field name
               });
               console.log("🔇 Muted Browser 6");
-
-              // Wait for the duration of the audio
+              
+              // Unmute after duration
               setTimeout(async () => {
-                // Unmute Browser 6
                 await obs.call("SetInputMute", {
                   inputName: "Browser 6",
-                  mute: false,
+                  inputMuted: false, // <-- Correct field name
                 });
                 console.log("🔊 Unmuted Browser 6");
-
-                // Disconnect OBS WebSocket
+              
                 await obs.disconnect();
                 console.log("❌ Disconnected from OBS");
-
-                resolve(publicUrl);
-              }, duration * 1000); // Convert seconds to milliseconds
+              }, duration * 1000);
+              // Convert seconds to milliseconds
             } catch (obsError) {
               console.error("OBS Error:", obsError);
               reject(obsError);
