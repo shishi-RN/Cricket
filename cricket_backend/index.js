@@ -289,7 +289,7 @@ app.get("/match-data", async (req, res) => {
     );
 
     const { matchHeader, commentaryList, miniscore } = response.data;
-
+    await new Promise(resolve => setTimeout(resolve, 80000));
     // Retrieve player images using fuzzy matching
     let batsmanNonStrikerImage;
     if (miniscore?.batsmanNonStriker?.batName) {
@@ -454,7 +454,7 @@ app.get("/match-data", async (req, res) => {
         shotType: lastValue,
       });
     }
-    await new Promise(resolve => setTimeout(resolve, 80000));
+
     res.send(api);
   } catch (error) {
     console.log("Error fetching match data:", error);
